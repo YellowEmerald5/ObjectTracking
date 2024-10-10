@@ -1,0 +1,8 @@
+{
+  "name": "com.objecttracking",
+  "version": "1.0.0",
+  "description": "Scripts, events and database access for storing the position of objects in a game",
+  "displayName": "Object tracking",
+  "unity": "2022.3",
+  "unityRelease": "48f1"
+}
