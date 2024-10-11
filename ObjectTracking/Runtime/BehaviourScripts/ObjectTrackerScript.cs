@@ -25,6 +25,7 @@ namespace BehaviourScripts
             var scale = GetComponent<Renderer>().bounds.size*1.05f;
             var gameId = storage.User.Sessions[^1].GamesList[^1].Id;
             m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x);
+            var a = new AreaOfInterest(m_Aoi.Height,m_Aoi.Width);
             trackedObject = new ObjectInGame(name,m_Aoi,gameId);
             AddPoint();
             objectCreatedEvent.Invoke();

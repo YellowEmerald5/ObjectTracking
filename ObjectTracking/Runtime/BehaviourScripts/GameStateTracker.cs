@@ -49,8 +49,7 @@ namespace BehaviourScripts
         {
             amountOfObjects--;
             if (amountOfObjects > 0) return;
-            DatabaseManager.SaveToDatabase(storage);
-            print("saved");
+            DatabaseManager.SaveStorageSOToDatabase(storage);
         }
     }
 }

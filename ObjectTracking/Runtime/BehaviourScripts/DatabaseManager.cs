@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LinqToDB;
 using LinqToDB.Data;
+using LinqToDB.Tools;
 using MySqlConnector;
 using Objects;
 using ScriptableObjectScripts;
@@ -19,9 +20,9 @@ namespace BehaviourScripts
         /// Saves the data currently in the StorageSO to the database
         /// </summary>
         /// <param name="storage">Scriptable object containing data that should be saved</param>
-        public static void SaveToDatabase(StorageSO storage)
+        public static void SaveStorageSOToDatabase(StorageSO storage)
         {
-            var connection = new DataConnection(new DataOptions().UseMySql($"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;"));
+            var connection = GetDataConnection();
             
             var users = connection.GetTable<User>().Select(u => new User(u.Id, u.Nickname, u.Sessions)).ToArray();
             var user = users.FirstOrDefault(u => u.Nickname.Equals(storage.nickname));
@@ -63,10 +64,18 @@ namespace BehaviourScripts
 
         }
 
+        public static void SaveObjectToDatabase<T>(T obj)
+        {
+            var connection = GetDataConnection();
+            connection.CreateTable<T>();
+            connection.Insert(obj);
+            connection.Close();
+            connection.Dispose();
+        }
+
         public static User GetUser(string nickname,StorageSO storage)
         {
-            var connection = new DataConnection(new DataOptions().UseMySql($"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;"));
-
+            var connection = GetDataConnection();
             User[] users;
             try
             {
@@ -123,7 +132,7 @@ namespace BehaviourScripts
 
         private static User[] InsertNewUser(StorageSO storage)
         {
-            var connection = new DataConnection(new DataOptions().UseMySql($"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;"));
+            var connection = GetDataConnection();
             connection.Insert(new User(storage.nickname));
             var users = connection.GetTable<User>().Where(u => u.Nickname.Equals(storage.nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
             return users;
@@ -131,10 +140,18 @@ namespace BehaviourScripts
 
         public static int GetSessionCount(int userId)
         {
-            var connection = new DataConnection(new DataOptions().UseMySql($"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;"));
+            var connection = GetDataConnection();
             var sessions = connection.GetTable<Session>().Where(s => s.UserId == userId)
                 .Select(s => new Session(s.Id, s.UserId)).ToArray();
             return sessions.Length;
+        }
+
+        private static DataConnection GetDataConnection()
+        {
+            return new DataConnection(new DataOptions().UseMySql($"Server={Server};" +
+                                                                 $"Database={Database};Uid={User};Pwd={Pwd};" +
+                                                                 $"Port={Port};Charset=utf8;" +
+                                                                 $"Allow User Variables=True;"));
         }
     }
 }
