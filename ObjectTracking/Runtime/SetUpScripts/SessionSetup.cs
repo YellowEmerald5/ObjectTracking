@@ -1,8 +1,9 @@
-﻿using Objects;
+﻿using BehaviourScripts;
+using Objects;
 using ScriptableObjectScripts;
 using UnityEngine;
 
-namespace BehaviourScripts
+namespace SetUpScripts
 {
     public class SessionSetup : MonoBehaviour
     {

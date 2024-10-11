@@ -24,10 +24,8 @@ namespace BehaviourScripts
         {
             if (state != PlayModeStateChange.EnteredEditMode) return;
             storage.User = null;
-            storage.timesPlayed = 0;
             storage.sessionID = 0;
             storage.nickname = "";
-            storage.TrackedObjectsPerTimeGamePlayedInSession = null;
         }
     }
 }

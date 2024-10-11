@@ -5,6 +5,7 @@ using LinqToDB.Tools;
 using MySqlConnector;
 using Objects;
 using ScriptableObjectScripts;
+using UnityEngine;
 
 namespace BehaviourScripts
 {
@@ -64,11 +65,35 @@ namespace BehaviourScripts
 
         }
 
-        public static void SaveObjectToDatabase<T>(T obj)
+        public static void SaveAoiToDatabase(AreaOfInterest aoi)
         {
             var connection = GetDataConnection();
-            connection.CreateTable<T>();
-            connection.Insert(obj);
+            try
+            {
+                connection.Insert(aoi);
+                foreach (var origin in aoi.Origins)
+                {
+                    connection.Insert(origin);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                connection.CreateTable<AreaOfInterest>();
+                connection.CreateTable<AoiOrigin>();
+                
+                var con = new MySqlConnection(
+                    $"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;");
+                con.Open();
+                var command = new MySqlCommand("alter table aoiorigin add constraint originAreaOfInterestfk foreign key (AreaOfInterestId) references AreaOfInterest (Id)");
+                command.Connection = con;
+                command.ExecuteNonQuery();
+                
+                connection.Insert(aoi);
+                foreach (var origo in aoi.Origins)
+                {
+                    connection.Insert(origo);
+                }
+            }
             connection.Close();
             connection.Dispose();
         }
@@ -119,7 +144,7 @@ namespace BehaviourScripts
                 
                 users = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
             }
-
+            
             if (users.Length == 0)
             {
                 users = InsertNewUser(storage);

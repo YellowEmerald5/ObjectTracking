@@ -10,9 +10,7 @@ namespace ScriptableObjectScripts
         public User User;
         public string nickname = "";
         public int sessionID;
-        public Dictionary<string, int> currentTimePlaying = new Dictionary<string, int>();
-        public int timesPlayed;
-        public Dictionary<string, List<List<ObjectInGame>>> TrackedObjectsPerTimeGamePlayedInSession = new Dictionary<string, List<List<ObjectInGame>>>();
+        public Dictionary<string, int> currentTimePlaying = new ();
 
         public void SetNickname(string n)
         {

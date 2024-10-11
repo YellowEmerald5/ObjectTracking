@@ -13,8 +13,9 @@ namespace BehaviourScripts
         [SerializeField] public StorageSO storage;
         [SerializeField] public UnityEvent objectCreatedEvent;
         [SerializeField] public UnityEvent objectAddedToListEvent;
-        private ObjectInGame trackedObject;
+        private int PositionOfObject;
         private Aoi m_Aoi;
+        private AreaOfInterest Aoi;
         private bool inList = false;
         private Camera cam;
         
@@ -22,11 +23,15 @@ namespace BehaviourScripts
         private void Start()
         {
             cam = FindObjectOfType<Camera>();
-            var scale = GetComponent<Renderer>().bounds.size*1.05f;
+            var scale = SizeOnScreen();
+            var pos = FindPositionOnScreen(); 
             var gameId = storage.User.Sessions[^1].GamesList[^1].Id;
+            Aoi = new AreaOfInterest(gameId + " " + name,scale.x,scale.y);
+            var origo = new AoiOrigin(Aoi.Id,pos);
+            Aoi.Origins.Add(origo);
             m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x);
-            var a = new AreaOfInterest(m_Aoi.Height,m_Aoi.Width);
-            trackedObject = new ObjectInGame(name,m_Aoi,gameId);
+            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId));
+            PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             AddPoint();
             objectCreatedEvent.Invoke();
         }
@@ -51,9 +56,17 @@ namespace BehaviourScripts
         private void Update()
         {
             AddPoint();
+            Aoi.Origins.Add(new AoiOrigin(Aoi.Id,FindPositionOnScreen()));
         }
 
         private void AddPoint()
+        {
+            var pos = FindPositionOnScreen(); 
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Name,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+                pos.x,pos.y));
+        }
+
+        private Vector3 FindPositionOnScreen()
         {
             var pos = transform.position;
             var windowPosition = Screen.mainWindowPosition;
@@ -61,8 +74,7 @@ namespace BehaviourScripts
             var screenHeight = Screen.mainWindowDisplayInfo.height;
             positionOnScreen.x += windowPosition.x;
             positionOnScreen.y += screenHeight - (windowPosition.y + Screen.height);
-            trackedObject.Points.Add(new Point(trackedObject.Name,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-                positionOnScreen.x,positionOnScreen.y));
+            return positionOnScreen;
         }
 
         /// <summary>
@@ -71,13 +83,23 @@ namespace BehaviourScripts
         private void AddObjectToList()
         {
             if(inList) return;
-            var sceneName = SceneManager.GetActiveScene().name;
-            var game = storage.User.Sessions[^1]
-                .GetGame(storage.currentTimePlaying[sceneName], sceneName);
-            if (game == null) return;
-            game.Objects.Add(trackedObject);
+            DatabaseManager.SaveAoiToDatabase(Aoi);
             inList = true;
             objectAddedToListEvent.Invoke();
+        }
+
+        private Vector2 SizeOnScreen()
+        {
+            var scale = GetComponent<Renderer>().bounds.size*1.05f;
+            var point = transform.position;
+            var p00 = new Vector3(point.x - scale.x/2,point.y - scale.y/2,0);
+            var p01 = new Vector3(point.x + scale.x / 2, point.y - scale.y / 2,0);
+            var p10 = new Vector3(point.x - scale.x / 2, point.y + scale.y / 2,0);
+            var p00S = cam.WorldToScreenPoint(p00);
+            var p01S = cam.WorldToScreenPoint(p01);
+            var p10S = cam.WorldToScreenPoint(p10);
+            var result = new Vector2(p01S.x - p00S.x,p10S.y-p00S.y);
+            return result;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Objects;
@@ -13,6 +14,7 @@ namespace BehaviourScripts
         [SerializeField] public StorageSO storage;
         [SerializeField] public UnityEvent completedWritingObjectsToStorage;
         private int amountOfObjects = 0;
+        private bool Added = false;
 
         //Sets up the StorageSO for the current session and game
         void Start()
@@ -28,7 +30,6 @@ namespace BehaviourScripts
             }
             storage.User.Sessions.Last().GamesList = new List<Game>();
             storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
-            
         }
 
         /// <summary>
@@ -50,6 +51,13 @@ namespace BehaviourScripts
             amountOfObjects--;
             if (amountOfObjects > 0) return;
             DatabaseManager.SaveStorageSOToDatabase(storage);
+            Added = true;
+        }
+
+        public void OnDestroy()
+        {
+            if(!Added)
+                DatabaseManager.SaveStorageSOToDatabase(storage);
         }
     }
 }
