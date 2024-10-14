@@ -18,7 +18,7 @@ Nickname 			(This field should be empty)
 Session ID 		0
 Amount Of Arrays 	0
 
-Scriptable Objects are located under Runtime/ScriptableObjects.
+Scriptable Objects are located under Runtime/ScriptableObjects.\
 Discrepancies may cause unexpected behavior.
 
 
