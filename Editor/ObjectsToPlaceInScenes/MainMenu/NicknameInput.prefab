@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 1710961650743067247}
   - component: {fileID: 8835162783217708923}
   - component: {fileID: 8779846936017675563}
+  - component: {fileID: 9206979651045687237}
   m_Layer: 5
   m_Name: NicknameInput
   m_TagString: Untagged
@@ -488,6 +489,20 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &9206979651045687237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5493120240327382098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbbf8de07f141758e4169f28263135b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nicknameInput: {fileID: 8779846936017675563}
+  storage: {fileID: 11400000, guid: 18fb58c8a2522f245b05d6bd6801d86f, type: 2}
 --- !u!1 &6327408800908500978
 GameObject:
   m_ObjectHideFlags: 0
