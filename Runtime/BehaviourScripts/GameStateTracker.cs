@@ -54,6 +54,7 @@ namespace BehaviourScripts
             Added = true;
         }
 
+        //Saves the data in storage if not all objects have reported back before being destroyed
         public void OnDestroy()
         {
             if(!Added)

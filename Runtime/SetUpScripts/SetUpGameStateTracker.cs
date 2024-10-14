@@ -11,8 +11,9 @@ namespace SetUpScripts
         private GameStateTracker gameStateTracker;
         private RequiredScriptableObjectsStorage gameEvents;
         
-        //Sets up the game event listeners for the game state tracker object and adds the GameStateTracker script
-        //The game event listeners are not set up in a separate method due to issues caused in such cases
+        /// <summary>
+        /// Sets up the GameStateTracker script and necessary events
+        /// </summary>
         private void Start()
         {
             gameEvents = GetComponent<RequiredScriptableObjectsStorageScript>().requiredScriptables;

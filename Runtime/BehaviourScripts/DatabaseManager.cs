@@ -84,14 +84,7 @@ namespace BehaviourScripts
             {
                 connection.CreateTable<AreaOfInterest>();
                 connection.CreateTable<AoiOrigin>();
-                
-                var con = new MySqlConnection(
-                    $"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;");
-                con.Open();
-                var command = new MySqlCommand("alter table aoiorigin add constraint originAreaOfInterestfk foreign key (AreaOfInterestId) references AreaOfInterest (Id)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
+                SetUpForeignKey("aoiorigin","originAreaOfInterestfk","AreaOfInterest","AreaOfInterest","Id");
                 connection.Insert(aoi);
                 foreach (var origo in aoi.Origins)
                 {
@@ -102,6 +95,9 @@ namespace BehaviourScripts
             connection.Dispose();
         }
 
+        /// <summary>
+        /// Sets up the tables for object tracking in the given database
+        /// </summary>
         private static void SetUpTables()
         {
             var connection = GetDataConnection();
@@ -122,6 +118,14 @@ namespace BehaviourScripts
             SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
         }
 
+        /// <summary>
+        /// Sets up a foreign key constraint for the tables given
+        /// </summary>
+        /// <param name="table">Table the key should be added to</param>
+        /// <param name="fkName">Name of the foreign key</param>
+        /// <param name="fk">Attribute in the table that should become the key</param>
+        /// <param name="connectedTable">Table the key should refer to</param>
+        /// <param name="connectedAttribute">Attribute the key should reference</param>
         private static void SetUpForeignKey(string table, string fkName, string fk, string connectedTable, string connectedAttribute)
         {
             var con = new MySqlConnection(
@@ -135,6 +139,13 @@ namespace BehaviourScripts
             con.Dispose();
         }
         
+        /// <summary>
+        /// Gets the user by nickname from the database.
+        /// Creates tables, adds and retrieves the user if it does not exist.
+        /// </summary>
+        /// <param name="nickname">User nickname</param>
+        /// <param name="storage">Scriptable object containing data for the object tracking</param>
+        /// <returns>Returns the user</returns>
         public static User GetUser(string nickname,StorageSO storage)
         {
             var connection = GetDataConnection();
@@ -159,6 +170,11 @@ namespace BehaviourScripts
             return users.FirstOrDefault(u => u.Nickname.Equals(nickname));
         }
 
+        /// <summary>
+        /// Inserts a user into the database
+        /// </summary>
+        /// <param name="storage">Scriptable object containing data for the object tracking</param>
+        /// <returns></returns>
         private static User[] InsertNewUser(StorageSO storage)
         {
             var connection = GetDataConnection();
@@ -167,6 +183,11 @@ namespace BehaviourScripts
             return users;
         }
 
+        /// <summary>
+        /// Gets the amount of sessions referring to the user
+        /// </summary>
+        /// <param name="userId">The identifier for the user</param>
+        /// <returns>NUmber of sessions</returns>
         public static int GetSessionCount(int userId)
         {
             var connection = GetDataConnection();
@@ -175,6 +196,10 @@ namespace BehaviourScripts
             return sessions.Length;
         }
 
+        /// <summary>
+        /// Sets up a new data connection
+        /// </summary>
+        /// <returns>Data connection</returns>
         private static DataConnection GetDataConnection()
         {
             return new DataConnection(new DataOptions().UseMySql($"Server={Server};" +

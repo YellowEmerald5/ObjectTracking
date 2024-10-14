@@ -11,8 +11,9 @@ namespace SetUpScripts
         private ObjectTrackerScript TrackerScript;
         private RequiredScriptableObjectsStorage gameEvents;
 
-        //Finds the scriptable objects necessary for setting up the objectTracker script and then
-        //adds a tracker script and game listener to the object
+        /// <summary>
+        /// Sets up a ObjectTracker script for the object it is attached to
+        /// </summary>
         private void Start()
         {
             gameEvents = FindObjectOfType<RequiredScriptableObjectsStorageScript>().requiredScriptables;
@@ -23,10 +24,9 @@ namespace SetUpScripts
         /// <summary>
         /// Sets up the ObjectTrackerScript for current object
         /// </summary>
-        /// <param name="storageSO">Scriptable object containing nickname,
-        /// session count and a list of the currently played games and the objects in each game</param>
-        /// <param name="objectCreatedSo">Game event used to inform the GameStateTracker script of the creation of a tracked object</param>
-        /// <param name="addedToListSO">Game event used to inform the GameStateTracker when an object is added to the StorageSO for saving</param>
+        /// <param name="storageSO">Scriptable object containing necessary data</param>
+        /// <param name="objectCreatedSo">Game event for informing of the objects creation</param>
+        /// <param name="addedToListSO">Game event for starting the save sequence</param>
         private void TrackerSetup(StorageSO storageSO,GameEvent objectCreatedSo,GameEvent addedToListSO)
         {
             TrackerScript.storage = storageSO;

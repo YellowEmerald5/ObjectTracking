@@ -22,7 +22,9 @@ namespace SetUpScripts
             storage.User.Sessions.Add(new Session(storage.sessionID, storage.User.Id));
         }
 
-        //Sets up a scenario without a user
+        /// <summary>
+        /// Sets up a scenario without a user
+        /// </summary>
         private void OnDestroy()
         {
             if (storage.User != null) return;

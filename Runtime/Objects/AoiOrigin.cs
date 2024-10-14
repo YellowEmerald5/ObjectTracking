@@ -13,7 +13,7 @@ namespace Objects
         public float PosX { get; set; }
         [NotNull]
         public float PosY { get; set; }
-
+        
         public AoiOrigin(string areaOfInterestId,Vector3 origin)
         {
             AreaOfInterestId = areaOfInterestId;

@@ -16,7 +16,7 @@ namespace Objects
         
         [Nullable]
         public List<ObjectInGame> Objects { get; }
-
+        
         public Game(int timesPlayed,string name, int userId, int sessionId)
         {
             TimesPlayed = timesPlayed;

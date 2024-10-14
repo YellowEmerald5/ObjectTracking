@@ -15,7 +15,7 @@ namespace Objects
         public float Width { get; set; }
         [NotNull]
         public List<AoiOrigin> Origins { get; set; }
-
+        
         public AreaOfInterest(string id,float height, float width)
         {
             Id = id;

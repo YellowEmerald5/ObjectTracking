@@ -60,6 +60,9 @@ namespace BehaviourScripts
             Aoi.Origins.Add(new AoiOrigin(Aoi.Id,FindPositionOnScreen()));
         }
 
+        /// <summary>
+        /// Adds the current position of the object to the storage
+        /// </summary>
         private void AddPoint()
         {
             var pos = FindPositionOnScreen(); 
@@ -67,6 +70,10 @@ namespace BehaviourScripts
                 pos.x,pos.y));
         }
 
+        /// <summary>
+        /// Finds the current position in the screen space
+        /// </summary>
+        /// <returns>Current position</returns>
         private Vector3 FindPositionOnScreen()
         {
             var pos = transform.position;
@@ -89,6 +96,10 @@ namespace BehaviourScripts
             objectAddedToListEvent.Invoke();
         }
 
+        /// <summary>
+        /// Finds the current pixel counts of the object boundary
+        /// </summary>
+        /// <returns>Object size</returns>
         private Vector2 SizeOnScreen()
         {
             var scale = GetComponent<Renderer>().bounds.size*1.05f;

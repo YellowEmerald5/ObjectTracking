@@ -11,20 +11,19 @@ namespace SetUpScripts
         private GameEventListener eventListener;
         private SessionSetup sessionSetup;
         private StorageReset storageReset;
-
-        //Adds and sets up the storage control and a nickname game event listener for the application
-        //The storage controller gets the session id from the database and resets the StorageSO when exiting play mode
-        //The game event listener reacts when a nickname is entered and checks if it exists in the database
+        
+        /// <summary>
+        /// Sets up the session and script for resetting the storage.
+        /// </summary>
         private void OnEnable()
         {
-            sessionSetup = gameObject.AddComponent<SessionSetup>();
+            var obj = gameObject;
+            sessionSetup = obj.AddComponent<SessionSetup>();
             sessionSetup.storage = requiredScriptableObjects.storage;
-            storageReset = gameObject.AddComponent<StorageReset>();
+            storageReset = obj.AddComponent<StorageReset>();
             storageReset.storage = requiredScriptableObjects.storage;
 
-            if (sessionSetup.storage.User != null) return;
-
-            GameEventListenerSetup.SetUpEventListener(gameObject,sessionSetup.GetSessionCount,requiredScriptableObjects.nicknameAdded);
+            GameEventListenerSetup.SetUpEventListener(obj,sessionSetup.GetSessionCount,requiredScriptableObjects.nicknameAdded);
         }
     }
 }
