@@ -1,15 +1,15 @@
-This package is used to track the position of game objects and writing the results to a MySQL database
+This package is used to track the position of game objects and writing the results to a MySQL database.
 
 Setup:
-All game Objects mentioned below can be found in Editor/ObjectsToPlaceInScenes
+All game Objects mentioned below can be found in Editor/ObjectsToPlaceInScenes.
 
-Main menu:
-1: Add the NicknameInput to any canvas used prior to starting the game.
-2: Add the StorageSetup object in the scene.
+Main menu:\
+1: Add the NicknameInput to any canvas used prior to starting the game.\
+2: Add the StorageSetup object in the scene.\
 
-Game scenes (scenes With Objects to track):
-1: Add the GamestateObserver to the scene.
-2: Add the SetUpObjectTracking script to all Objects to track. This should also be added to any object instantiated in code or as prefabs. This script is located under Runtime/SetUpScripts
+Game scenes (scenes With Objects to track):\
+1: Add the GamestateObserver to the scene.\
+2: Add the SetUpObjectTracking script to all Objects to track. This should also be added to any object instantiated in code or as prefabs. This script is located under Runtime/SetUpScripts.\
 
 
 NB!
@@ -18,7 +18,7 @@ Nickname 			(This field should be empty)
 Session ID 		0
 Amount Of Arrays 	0
 
-Scriptable Objects are located under Runtime/ScriptableObjects
+Scriptable Objects are located under Runtime/ScriptableObjects.
 Discrepancies may cause unexpected behavior.
 
 
