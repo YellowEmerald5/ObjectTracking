@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="586f2dde-63cc-46fd-8e0f-dce95c8c41be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ObjectTracking/Runtime/Objects/AreaOfInterest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/DatabaseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/DatabaseManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/GameStateTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/GameStateTracker.cs" afterDir="false" />
-    </list>
+    <list default="true" id="82ef276d-8268-4006-9f1a-c2be20048f18" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/DatabaseManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ObjectTracking/Runtime/BehaviourScripts/GameStateTracker.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ObjectTracking/Runtime/Objects/Aoi.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ObjectTracking/Runtime/Objects/AreaOfInterest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BehaviourScripts/DatabaseManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BehaviourScripts/GameStateTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BehaviourScripts/ObjectTrackerScript.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BehaviourScripts/SessionSetup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BehaviourScripts/StorageReset.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/GameEventScripts/GameEvent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/GameEventScripts/GameEventListener.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/Aoi.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/Game.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/ObjectInGame.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/Point.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/Session.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Objects/User.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/ScriptableObjectScripts/RequiredScriptableObjectsStorage.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/ScriptableObjectScripts/StorageSO.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SetUpScripts/GameEventListenerSetup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SetUpScripts/RequiredScriptableObjectsStorageScript.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SetUpScripts/SetUpGameStateTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SetUpScripts/SetUpObjectTracking.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SetUpScripts/SetUpSessionAndResetForStorage.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 6
-}]]></component>
-  <component name="ProjectId" id="2nFVAFJIj5OFp7UWdce99pFBag5" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2nBpBoXe7WsWggYHc1v7fAqmxmK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,6 +45,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -47,12 +62,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="586f2dde-63cc-46fd-8e0f-dce95c8c41be" name="Changes" comment="" />
-      <created>1728568665684</created>
+      <changelist id="82ef276d-8268-4006-9f1a-c2be20048f18" name="Changes" comment="" />
+      <created>1728456192515</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728568665684</updated>
-      <workItem from="1728568667406" duration="222000" />
+      <updated>1728456192515</updated>
+      <workItem from="1728456193779" duration="173000" />
+      <workItem from="1728456377977" duration="4543000" />
     </task>
     <servers />
   </component>

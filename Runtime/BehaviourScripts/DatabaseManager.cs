@@ -65,6 +65,10 @@ namespace BehaviourScripts
 
         }
 
+        /// <summary>
+        /// Creates and sets up a separate area of interest table and stores the given area of interest
+        /// </summary>
+        /// <param name="aoi">Area of interest to save in the database</param>
         public static void SaveAoiToDatabase(AreaOfInterest aoi)
         {
             var connection = GetDataConnection();
@@ -98,6 +102,39 @@ namespace BehaviourScripts
             connection.Dispose();
         }
 
+        private static void SetUpTables()
+        {
+            var connection = GetDataConnection();
+            connection.CreateTable<User>();
+            connection.CreateTable<Session>();
+            connection.CreateTable<Game>();
+            connection.CreateTable<ObjectInGame>();
+            connection.CreateTable<Aoi>();
+            connection.CreateTable<Point>();
+            
+            connection.Close();
+            connection.Dispose();
+            
+            SetUpForeignKey("session","sessionuserfk", "UserId","User","Id");
+            SetUpForeignKey("game","gamesessionfk", "SessionId","Session","Id");
+            SetUpForeignKey("objectingame","objectgamefk", "GameId","Game","Id");
+            SetUpForeignKey("aoi","aoiobjectfk", "ObjectName","ObjectInGame","Name");
+            SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
+        }
+
+        private static void SetUpForeignKey(string table, string fkName, string fk, string connectedTable, string connectedAttribute)
+        {
+            var con = new MySqlConnection(
+                $"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;");
+            con.Open();
+            
+            var command = new MySqlCommand($"alter table {table} add constraint {fkName} foreign key ({fk}) references {connectedTable} ({connectedAttribute})");
+            command.Connection = con;
+            command.ExecuteNonQuery();
+            con.Close();
+            con.Dispose();
+        }
+        
         public static User GetUser(string nickname,StorageSO storage)
         {
             var connection = GetDataConnection();
@@ -108,40 +145,7 @@ namespace BehaviourScripts
             }
             catch (MySqlException ex)
             {
-                connection.CreateTable<User>();
-                connection.CreateTable<Session>();
-                connection.CreateTable<Game>();
-                connection.CreateTable<ObjectInGame>();
-                connection.CreateTable<Aoi>();
-                connection.CreateTable<Point>();
-                
-                var con = new MySqlConnection(
-                    $"Server={Server};Database={Database};Uid={User};Pwd={Pwd};Port={Port};Charset=utf8;Allow User Variables=True;");
-                con.Open();
-                
-                var command = new MySqlCommand("alter table session add constraint sessionuserfk foreign key (UserId) references User (Id)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
-                command = new MySqlCommand("alter table game add constraint gamesessionfk foreign key (SessionId) references Session (Id)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
-                command = new MySqlCommand("alter table objectingame add constraint objectgamefk foreign key (GameId) references Game (Id)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
-                command = new MySqlCommand("alter table aoi add constraint aoiobjectfk foreign key (ObjectName) references ObjectInGame (Name)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
-                command = new MySqlCommand("alter table point add constraint pointobjectfk foreign key (ObjectName) references ObjectInGame (Name)");
-                command.Connection = con;
-                command.ExecuteNonQuery();
-                
-                con.Close();
-                con.Dispose();
-                
+                SetUpTables();
                 users = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
             }
             

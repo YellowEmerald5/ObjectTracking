@@ -24,8 +24,9 @@ namespace BehaviourScripts
         {
             cam = FindObjectOfType<Camera>();
             var scale = SizeOnScreen();
-            var pos = FindPositionOnScreen(); 
-            var gameId = storage.User.Sessions[^1].GamesList[^1].Id;
+            var pos = FindPositionOnScreen();
+            var session = storage.User.Sessions[^1];
+            var gameId = session.GamesList[^1].Id;
             Aoi = new AreaOfInterest(gameId + " " + name,scale.x,scale.y);
             var origo = new AoiOrigin(Aoi.Id,pos);
             Aoi.Origins.Add(origo);
