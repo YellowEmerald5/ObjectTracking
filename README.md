@@ -12,10 +12,10 @@ Game scenes (scenes With Objects to track):\
 2: Add the SetUpObjectTracking script to all Objects to track. This should also be added to any object instantiated in code or as prefabs. This script is located under Runtime/SetUpScripts.
 
 
-NB!
-Control that the values in StorageSO are as follows before building the application.
-Nickname 			(This field should be empty)
-Session ID 		0
+NB!\
+Control that the values in StorageSO are as follows before building the application.\
+Nickname 			(This field should be empty)\
+Session ID 		0\
 Amount Of Arrays 	0
 
 Scriptable Objects are located under Runtime/ScriptableObjects.\
