@@ -5,11 +5,11 @@ All game Objects mentioned below can be found in Editor/ObjectsToPlaceInScenes.
 
 Main menu:\
 1: Add the NicknameInput to any canvas used prior to starting the game.\
-2: Add the StorageSetup object in the scene.\
+2: Add the StorageSetup object in the scene.
 
 Game scenes (scenes With Objects to track):\
 1: Add the GamestateObserver to the scene.\
-2: Add the SetUpObjectTracking script to all Objects to track. This should also be added to any object instantiated in code or as prefabs. This script is located under Runtime/SetUpScripts.\
+2: Add the SetUpObjectTracking script to all Objects to track. This should also be added to any object instantiated in code or as prefabs. This script is located under Runtime/SetUpScripts.
 
 
 NB!
