@@ -30,7 +30,7 @@ namespace BehaviourScripts
             var gameId = session.GamesList[^1].Id;
             m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
             var origo = new AoiOrigin(m_Aoi.Id,pos);
-            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId));
+            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             AddPosition();
