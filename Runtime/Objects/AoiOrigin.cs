@@ -8,7 +8,7 @@ namespace Objects
         [PrimaryKey, Identity]
         public int Id { get; set; }
         [NotNull, Column(Length = 255)]
-        public string AreaOfInterestId { get; set; }
+        public string AoiId { get; set; }
         [NotNull]
         public float PosX { get; set; }
         [NotNull]
@@ -16,7 +16,7 @@ namespace Objects
         
         public AoiOrigin(string areaOfInterestId,Vector3 origin)
         {
-            AreaOfInterestId = areaOfInterestId;
+            AoiId = areaOfInterestId;
             PosX = origin.x;
             PosY = origin.y;
         }
