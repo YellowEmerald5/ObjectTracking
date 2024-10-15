@@ -16,7 +16,7 @@ namespace BehaviourScripts
         private static string User = "root";
         private static string Pwd = "EMPOWERpwd";
         private static string Port = "3306";
-        
+
         /// <summary>
         /// Saves the data currently in the StorageSO to the database
         /// </summary>
@@ -24,7 +24,7 @@ namespace BehaviourScripts
         public static void SaveStorageSOToDatabase(StorageSO storage)
         {
             var connection = GetDataConnection();
-            
+
             var users = connection.GetTable<User>().Select(u => new User(u.Id, u.Nickname, u.Sessions)).ToArray();
             var user = users.FirstOrDefault(u => u.Nickname.Equals(storage.nickname));
             Session session = null;
@@ -57,42 +57,17 @@ namespace BehaviourScripts
                     {
                         connection.Insert(point);
                     }
+
+                    foreach (var origin in obj.Aoi.Origins)
+                    {
+                        connection.Insert(origin);
+                    }
                 }
             }
-            
+
             connection.Close();
             connection.Dispose();
 
-        }
-
-        /// <summary>
-        /// Creates and sets up a separate area of interest table and stores the given area of interest
-        /// </summary>
-        /// <param name="aoi">Area of interest to save in the database</param>
-        public static void SaveAoiToDatabase(AreaOfInterest aoi)
-        {
-            var connection = GetDataConnection();
-            try
-            {
-                connection.Insert(aoi);
-                foreach (var origin in aoi.Origins)
-                {
-                    connection.Insert(origin);
-                }
-            }
-            catch (MySqlException ex)
-            {
-                connection.CreateTable<AreaOfInterest>();
-                connection.CreateTable<AoiOrigin>();
-                SetUpForeignKey("aoiorigin","originAreaOfInterestfk","AreaOfInterest","AreaOfInterest","Id");
-                connection.Insert(aoi);
-                foreach (var origo in aoi.Origins)
-                {
-                    connection.Insert(origo);
-                }
-            }
-            connection.Close();
-            connection.Dispose();
         }
 
         /// <summary>
@@ -107,6 +82,7 @@ namespace BehaviourScripts
             connection.CreateTable<ObjectInGame>();
             connection.CreateTable<Aoi>();
             connection.CreateTable<Point>();
+            connection.CreateTable<AoiOrigin>();
             
             connection.Close();
             connection.Dispose();
@@ -116,6 +92,7 @@ namespace BehaviourScripts
             SetUpForeignKey("objectingame","objectgamefk", "GameId","Game","Id");
             SetUpForeignKey("aoi","aoiobjectfk", "ObjectName","ObjectInGame","Name");
             SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
+            SetUpForeignKey("aoiorigin","originAoifk","AreaOfInterest","Aoi","Id");
         }
 
         /// <summary>

@@ -13,13 +13,28 @@ namespace Objects
         public Aoi Aoi { get; set; }
         [Nullable]
         public List<Point> Points { get; set; }
+        [NotNull]
+        public long TimeSpawn { get; set; }
+        [NotNull]
+        public float SpawnPositionX { get; set; }
+        [NotNull]
+        public float SpawnPositionY { get; set; }
+        [NotNull]
+        public long TimeDestroyed { get; set; }
+        [NotNull]
+        public float EndPositionX { get; set; }
+        [NotNull]
+        public float EndPositionY { get; set; }
 
-        public ObjectInGame(string objectName, Aoi aoi, int gameId)
+        public ObjectInGame(string objectName, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY)
         {
             GameId = gameId;
             Name = $"{gameId} {objectName}";
             Aoi = aoi;
             Points = new List<Point>();
+            TimeSpawn = timeSpawn;
+            SpawnPositionX = spawnPositionX;
+            SpawnPositionY = spawnPositionY;
         }
     }
 }

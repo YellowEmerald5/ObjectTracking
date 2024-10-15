@@ -15,9 +15,10 @@ namespace BehaviourScripts
         [SerializeField] public UnityEvent objectAddedToListEvent;
         private int PositionOfObject;
         private Aoi m_Aoi;
-        private AreaOfInterest Aoi;
         private bool inList = false;
         private Camera cam;
+        private string Name;
+        
         
         //Sets up the AOI and object tracking before raising the ObjectCreated game event
         private void Start()
@@ -27,13 +28,12 @@ namespace BehaviourScripts
             var pos = FindPositionOnScreen();
             var session = storage.User.Sessions[^1];
             var gameId = session.GamesList[^1].Id;
-            Aoi = new AreaOfInterest(gameId + " " + name,scale.x,scale.y);
-            var origo = new AoiOrigin(Aoi.Id,pos);
-            Aoi.Origins.Add(origo);
-            m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x);
+            m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
+            var origo = new AoiOrigin(m_Aoi.Id,pos);
             storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId));
+            Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
-            AddPoint();
+            AddPosition();
             objectCreatedEvent.Invoke();
         }
 
@@ -56,18 +56,18 @@ namespace BehaviourScripts
         //Tracks the current millisecond utc and position of the object every frame
         private void Update()
         {
-            AddPoint();
-            Aoi.Origins.Add(new AoiOrigin(Aoi.Id,FindPositionOnScreen()));
+            AddPosition();
         }
 
         /// <summary>
         /// Adds the current position of the object to the storage
         /// </summary>
-        private void AddPoint()
+        private void AddPosition()
         {
-            var pos = FindPositionOnScreen(); 
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Name,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-                pos.x,pos.y));
+            var pos = FindPositionOnScreen();
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(
+                Name, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y));
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.Origins.Add(new AoiOrigin(m_Aoi.Id,pos));
         }
 
         /// <summary>
@@ -91,9 +91,16 @@ namespace BehaviourScripts
         private void AddObjectToList()
         {
             if(inList) return;
-            DatabaseManager.SaveAoiToDatabase(Aoi);
             inList = true;
+            var pos = FindPositionOnScreen();
+            m_Aoi.TimeDestroy = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            m_Aoi.EndPositionX = pos.x;
+            m_Aoi.EndPositionY = pos.y;
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.x;
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.y;
             objectAddedToListEvent.Invoke();
+            Destroy(this);
         }
 
         /// <summary>
