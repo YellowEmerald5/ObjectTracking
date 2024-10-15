@@ -38,6 +38,7 @@ namespace Objects
             TimeSpawn = timeSpawn;
             StartPositionX = position.x;
             StartPositionY = position.y;
+            Origins = new List<AoiOrigin>();
         }
     }
 }
