@@ -92,7 +92,7 @@ namespace BehaviourScripts
             SetUpForeignKey("objectingame","objectgamefk", "GameId","Game","Id");
             SetUpForeignKey("aoi","aoiobjectfk", "ObjectName","ObjectInGame","Name");
             SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
-            SetUpForeignKey("aoiorigin","originAoifk","AreaOfInterest","Aoi","Id");
+            SetUpForeignKey("aoiorigin","originAoifk","AoiId","Aoi","Id");
         }
 
         /// <summary>
