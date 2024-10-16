@@ -83,11 +83,7 @@ namespace BehaviourScripts
             if (!CameraDestroyed && cam == null) CameraDestroyed = true;
             if (CameraDestroyed) return new Vector3();
             var pos = transform.position;
-            var windowPosition = Screen.mainWindowPosition;
             var positionOnScreen = cam.WorldToScreenPoint(pos);
-            var screenHeight = Screen.mainWindowDisplayInfo.height;
-            positionOnScreen.x += windowPosition.x;
-            positionOnScreen.y += screenHeight - (windowPosition.y + Screen.height);
             return positionOnScreen;
 
         }
@@ -116,15 +112,17 @@ namespace BehaviourScripts
         /// <returns>Object size</returns>
         private Vector2 SizeOnScreen()
         {
-            var scale = Renderer.bounds.size * 1.05f;
-            var point = transform.position;
-            var p00 = new Vector3(point.x - scale.x/2,point.y - scale.y/2,0);
-            var p01 = new Vector3(point.x + scale.x / 2, point.y - scale.y / 2,0);
-            var p10 = new Vector3(point.x - scale.x / 2, point.y + scale.y / 2,0);
-            var p00S = cam.WorldToScreenPoint(p00);
-            var p01S = cam.WorldToScreenPoint(p01);
-            var p10S = cam.WorldToScreenPoint(p10);
-            var result = new Vector2(p01S.x - p00S.x,p10S.y-p00S.y);
+            var bounds = Renderer.bounds;
+            var min = bounds.min * 1.05f;
+            var max = bounds.max * 1.05f;
+
+            var screenMin = cam.WorldToScreenPoint(min);
+            var screenMax = cam.WorldToScreenPoint(max);
+
+            var screenWidth = screenMax.x - screenMin.x;
+            var screenHeight = screenMax.y - screenMin.y;
+
+            var result = new Vector2(screenWidth,screenHeight);
             return result;
         }
     }
