@@ -6,7 +6,7 @@ namespace Objects
     {
         [PrimaryKey,Identity]
         public int Id { get; set; }
-        [NotNull,Column(Length = 50)]
+        [NotNull,Column(Length = 100)]
         public string ObjectName { get; set; }
         [NotNull]
         public long Time { get; }

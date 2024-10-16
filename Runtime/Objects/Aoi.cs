@@ -6,9 +6,9 @@ namespace Objects
 {
     public class Aoi
     {
-        [PrimaryKey,Column(Length = 255)]
+        [PrimaryKey,Column(Length = 100)]
         public string Id { get; set; }
-        [NotNull,Column(Length = 50)]
+        [NotNull,Column(Length = 100)]
         public string ObjectName { get; set; }
         [Nullable]
         public List<AoiOrigin> Origins { get; set; }

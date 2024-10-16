@@ -5,7 +5,7 @@ namespace Objects
 {
     public class ObjectInGame
     {
-        [PrimaryKey,Column(Length = 50)]
+        [PrimaryKey,Column(Length = 100)]
         public string Name { get; set; }
         [NotNull]
         public int GameId { get; set; }

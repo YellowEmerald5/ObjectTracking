@@ -5,7 +5,7 @@ namespace Objects
 {
     public class User
     {
-        [NotNull]
+        [NotNull,Column(Length = 50)]
         public string Nickname { get; set; }
         [PrimaryKey,Identity]
         public int Id { get; set; }

@@ -11,7 +11,7 @@ namespace Objects
         public int TimesPlayed { get; }
         [NotNull]
         public int SessionId { get; set; }
-        [NotNull]
+        [NotNull,Column(Length = 100)]
         public string Name { get; }
         
         [Nullable]

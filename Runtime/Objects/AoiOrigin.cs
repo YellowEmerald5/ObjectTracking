@@ -7,7 +7,7 @@ namespace Objects
     {
         [PrimaryKey, Identity]
         public int Id { get; set; }
-        [NotNull, Column(Length = 255)]
+        [NotNull, Column(Length = 100)]
         public string AoiId { get; set; }
         [NotNull]
         public float PosX { get; set; }
