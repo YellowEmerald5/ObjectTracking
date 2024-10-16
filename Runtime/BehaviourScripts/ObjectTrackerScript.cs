@@ -19,17 +19,19 @@ namespace BehaviourScripts
         private Camera cam;
         private string Name;
         private bool CameraDestroyed = false;
+        private Renderer Renderer;
         
         //Sets up the AOI and object tracking before raising the ObjectCreated game event
         private void Start()
         {
-            cam = FindObjectOfType<Camera>();
+            cam = FindObjectOfType<Camera>(); 
+            Renderer = GetComponent<Renderer>();
             var scale = SizeOnScreen();
             var pos = FindPositionOnScreen();
             var session = storage.User.Sessions[^1];
             var gameId = session.GamesList[^1].Id;
-            m_Aoi = new Aoi(gameId + " " + name,scale.y, scale.x,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
-            var origo = new AoiOrigin(m_Aoi.Id,pos);
+            m_Aoi = new Aoi(gameId + " " + name,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
+            m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
             storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
@@ -57,10 +59,12 @@ namespace BehaviourScripts
         private void Update()
         {
             AddPosition();
+            var scale = SizeOnScreen();
+            m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
         }
 
         /// <summary>
-        /// Adds the current position of the object to the storage
+        /// Adds the current position of the object and aoi to the storage
         /// </summary>
         private void AddPosition()
         {
@@ -112,7 +116,7 @@ namespace BehaviourScripts
         /// <returns>Object size</returns>
         private Vector2 SizeOnScreen()
         {
-            var scale = GetComponent<Renderer>().bounds.size*1.05f;
+            var scale = Renderer.bounds.size * 1.05f;
             var point = transform.position;
             var p00 = new Vector3(point.x - scale.x/2,point.y - scale.y/2,0);
             var p01 = new Vector3(point.x + scale.x / 2, point.y - scale.y / 2,0);
