@@ -18,7 +18,7 @@ namespace BehaviourScripts
         private bool inList = false;
         private Camera cam;
         private string Name;
-        
+        private bool CameraDestroyed = false;
         
         //Sets up the AOI and object tracking before raising the ObjectCreated game event
         private void Start()
@@ -76,6 +76,8 @@ namespace BehaviourScripts
         /// <returns>Current position</returns>
         private Vector3 FindPositionOnScreen()
         {
+            if (CameraDestroyed) return new Vector3();
+            if (cam == null) CameraDestroyed = true;
             var pos = transform.position;
             var windowPosition = Screen.mainWindowPosition;
             var positionOnScreen = cam.WorldToScreenPoint(pos);
@@ -83,6 +85,7 @@ namespace BehaviourScripts
             positionOnScreen.x += windowPosition.x;
             positionOnScreen.y += screenHeight - (windowPosition.y + Screen.height);
             return positionOnScreen;
+
         }
 
         /// <summary>
