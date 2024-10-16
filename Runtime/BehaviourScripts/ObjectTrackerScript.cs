@@ -80,8 +80,8 @@ namespace BehaviourScripts
         /// <returns>Current position</returns>
         private Vector3 FindPositionOnScreen()
         {
+            if (!CameraDestroyed && cam == null) CameraDestroyed = true;
             if (CameraDestroyed) return new Vector3();
-            if (cam == null) CameraDestroyed = true;
             var pos = transform.position;
             var windowPosition = Screen.mainWindowPosition;
             var positionOnScreen = cam.WorldToScreenPoint(pos);

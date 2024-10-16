@@ -62,6 +62,11 @@ namespace BehaviourScripts
                     {
                         connection.Insert(origin);
                     }
+
+                    foreach (var size in obj.Aoi.Sizes)
+                    {
+                        connection.Insert(size);
+                    }
                 }
             }
 
@@ -83,6 +88,7 @@ namespace BehaviourScripts
             connection.CreateTable<Aoi>();
             connection.CreateTable<Point>();
             connection.CreateTable<AoiOrigin>();
+            connection.CreateTable<AoiSize>();
             
             connection.Close();
             connection.Dispose();
@@ -93,6 +99,7 @@ namespace BehaviourScripts
             SetUpForeignKey("aoi","aoiobjectfk", "ObjectName","ObjectInGame","Name");
             SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
             SetUpForeignKey("aoiorigin","originAoifk","AoiId","Aoi","Id");
+            SetUpForeignKey("aoisize","sizeAoifk","AoiId","Aoi","Id");
         }
 
         /// <summary>
