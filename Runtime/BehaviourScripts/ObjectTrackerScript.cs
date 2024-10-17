@@ -94,9 +94,9 @@ namespace BehaviourScripts
         {
             var pos = FindPositionOnScreen();
             var time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            m_Aoi.TimeDestroy = time;
-            m_Aoi.EndPositionX = pos.x;
-            m_Aoi.EndPositionY = pos.y;
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.TimeDestroy = time;
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.EndPositionX = pos.x;
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.EndPositionY = pos.y;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = time;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.x;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.y;
