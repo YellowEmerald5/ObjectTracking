@@ -15,7 +15,6 @@ namespace BehaviourScripts
         [SerializeField] public UnityEvent objectAddedToListEvent;
         private int PositionOfObject;
         private Aoi m_Aoi;
-        private bool inList = false;
         private Camera cam;
         private string Name;
         private bool CameraDestroyed = false;
@@ -93,13 +92,12 @@ namespace BehaviourScripts
         /// </summary>
         private void AddObjectToList()
         {
-            if(inList) return;
-            inList = true;
             var pos = FindPositionOnScreen();
-            m_Aoi.TimeDestroy = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            var time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            m_Aoi.TimeDestroy = time;
             m_Aoi.EndPositionX = pos.x;
             m_Aoi.EndPositionY = pos.y;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = time;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.x;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.y;
             objectAddedToListEvent.Invoke();
