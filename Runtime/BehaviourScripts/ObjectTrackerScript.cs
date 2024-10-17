@@ -47,13 +47,6 @@ namespace BehaviourScripts
             AddObjectToList();
         }
 
-        //Runs when the game object is destroyed
-        //It writes the tracked object to the StorageSO if it is not present in the list
-        private void OnDestroy()
-        {
-            AddObjectToList();
-        }
-
         //Tracks the current millisecond utc and position of the object every frame
         private void Update()
         {
