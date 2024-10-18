@@ -8,6 +8,7 @@ namespace SetUpScripts
     public class SessionSetup : MonoBehaviour
     {
         public StorageSO storage;
+        private bool _saved;
 
         /// <summary>
         /// Gets the session count associated with the nickname from the database
@@ -15,6 +16,11 @@ namespace SetUpScripts
         /// </summary>
         public void GetSessionCount()
         {
+            if (!_saved && storage.ContainsItems)
+            {
+                DatabaseManager.SaveStorageSOToDatabase(storage);
+                _saved = true;
+            }
             var user = DatabaseManager.GetUser(storage.nickname,storage);
             storage.User = user;
             var sessionCount = DatabaseManager.GetSessionCount(storage.User.Id);
@@ -27,6 +33,10 @@ namespace SetUpScripts
         /// </summary>
         private void OnDestroy()
         {
+            if (!_saved && storage.ContainsItems)
+            {
+                DatabaseManager.SaveStorageSOToDatabase(storage);
+            }
             if (storage.User != null) return;
             storage.nickname = "";
             GetSessionCount();

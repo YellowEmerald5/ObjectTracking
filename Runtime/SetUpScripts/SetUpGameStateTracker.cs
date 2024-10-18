@@ -17,10 +17,7 @@ namespace SetUpScripts
         private void Start()
         {
             gameEvents = GetComponent<RequiredScriptableObjectsStorageScript>().requiredScriptables;
-            PrepareGameStateTracker(gameEvents.storage, gameEvents.completedWriting);
-            
-            GameEventListenerSetup.SetUpEventListener(gameObject,gameStateTracker.ObjectCreated,gameEvents.objectCreated);
-            GameEventListenerSetup.SetUpEventListener(gameObject,gameStateTracker.WaitForDataCollection,gameEvents.addedToList);
+            PrepareGameStateTracker(gameEvents.storage);
         }
 
         /// <summary>
@@ -28,13 +25,10 @@ namespace SetUpScripts
         /// </summary>
         /// <param name="storageSO">Scriptable object containing information for the current session</param>
         /// <param name="completedWritingSO">Game event used to inform parts of the application that it can safely end</param>
-        private void PrepareGameStateTracker(StorageSO storageSO, GameEvent completedWritingSO)
+        private void PrepareGameStateTracker(StorageSO storageSO)
         {
             gameStateTracker = gameObject.AddComponent<GameStateTracker>();
             gameStateTracker.storage = storageSO;
-            var ev = new UnityEvent();
-            ev.AddListener(completedWritingSO.Raise);
-            gameStateTracker.completedWritingObjectsToStorage = ev;
         }
     }
 }

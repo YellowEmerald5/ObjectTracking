@@ -38,15 +38,6 @@ namespace BehaviourScripts
             objectCreatedEvent.Invoke();
         }
 
-        /// <summary>
-        /// Runs when the object is disabled before the game changes scene
-        /// Writes the tracked object to StorageSO if it is not present in the list
-        /// </summary>
-        public void OnDisable()
-        {
-            AddObjectToList();
-        }
-
         //Tracks the current millisecond utc and position of the object every frame
         private void Update()
         {

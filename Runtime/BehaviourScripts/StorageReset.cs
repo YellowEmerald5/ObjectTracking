@@ -26,6 +26,7 @@ namespace BehaviourScripts
             storage.User = null;
             storage.sessionID = 0;
             storage.nickname = "";
+            storage.ContainsItems = false;
         }
     }
 }

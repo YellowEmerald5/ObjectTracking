@@ -4,7 +4,6 @@ using System.Linq;
 using Objects;
 using ScriptableObjectScripts;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace BehaviourScripts
@@ -12,9 +11,6 @@ namespace BehaviourScripts
     public class GameStateTracker : MonoBehaviour
     {
         [SerializeField] public StorageSO storage;
-        [SerializeField] public UnityEvent completedWritingObjectsToStorage;
-        private int amountOfObjects = 0;
-        private bool Added = false;
 
         //Sets up the StorageSO for the current session and game
         void Start()
@@ -30,35 +26,7 @@ namespace BehaviourScripts
             }
             storage.User.Sessions.Last().GamesList = new List<Game>();
             storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
-        }
-
-        /// <summary>
-        /// Runs when the ObjectCreated game event is raised
-        /// Increments amountOfObjects by 1
-        /// </summary>
-        public void ObjectCreated()
-        {
-            amountOfObjects++;
-        }
-
-        /// <summary>
-        /// Runs when the ObjectAddedToList game event is raised
-        /// Decrements amountOfObjects by 1 until 0
-        /// Raises the CompletedWriting game event when amountOfObjects = 0
-        /// </summary>
-        public void WaitForDataCollection()
-        {
-            amountOfObjects--;
-            if (amountOfObjects > 0) return;
-            DatabaseManager.SaveStorageSOToDatabase(storage);
-            Added = true;
-        }
-
-        //Saves the data in storage if not all objects have reported back before being destroyed
-        public void OnDestroy()
-        {
-            if(!Added)
-                DatabaseManager.SaveStorageSOToDatabase(storage);
+            storage.ContainsItems = true;
         }
     }
 }
