@@ -18,6 +18,7 @@ namespace SetUpScripts
         {
             if (!_saved && storage.ContainsItems)
             {
+                SetObjectEnd();
                 DatabaseManager.SaveStorageSOToDatabase(storage);
                 _saved = true;
             }
@@ -35,11 +36,28 @@ namespace SetUpScripts
         {
             if (!_saved && storage.ContainsItems)
             {
+                SetObjectEnd();
                 DatabaseManager.SaveStorageSOToDatabase(storage);
             }
             if (storage.User != null) return;
             storage.nickname = "";
             GetSessionCount();
+        }
+
+        private void SetObjectEnd()
+        {
+            foreach (var obj in storage.User.Sessions[^1].GamesList[^1].Objects)
+            {
+                obj.TimeDestroyed = obj.Points[^1].Time;
+                var point = obj.Points[^1];
+                obj.EndPositionX = point.PosX;
+                obj.EndPositionY = point.PosY;
+
+                obj.Aoi.TimeDestroy = obj.Aoi.TimeDestroy = obj.TimeDestroyed;
+                var origin = obj.Aoi.Origins[^1];
+                obj.Aoi.EndPositionX = origin.PosX;
+                obj.Aoi.EndPositionY = origin.PosY;
+            }
         }
     }
 }
