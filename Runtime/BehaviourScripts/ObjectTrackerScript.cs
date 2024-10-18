@@ -11,8 +11,6 @@ namespace BehaviourScripts
     {
         //Place this script on all objects to be tracked
         [SerializeField] public StorageSO storage;
-        [SerializeField] public UnityEvent objectCreatedEvent;
-        [SerializeField] public UnityEvent objectAddedToListEvent;
         private int PositionOfObject;
         private Aoi m_Aoi;
         private Camera cam;
@@ -35,7 +33,6 @@ namespace BehaviourScripts
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             AddPosition();
-            objectCreatedEvent.Invoke();
         }
 
         //Tracks the current millisecond utc and position of the object every frame
@@ -84,7 +81,6 @@ namespace BehaviourScripts
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = time;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.x;
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.y;
-            objectAddedToListEvent.Invoke();
             Destroy(this);
         }
 
