@@ -16,10 +16,11 @@ namespace SetUpScripts
         /// </summary>
         public void GetSessionCount()
         {
-            if (!_saved && storage.ContainsItems)
+            if (storage.ContainsItems)
             {
                 SetObjectEnd();
                 DatabaseManager.SaveStorageSOToDatabase(storage);
+                storage.ContainsItems = false;
                 _saved = true;
             }
             var user = DatabaseManager.GetUser(storage.nickname,storage);
@@ -38,6 +39,7 @@ namespace SetUpScripts
             {
                 SetObjectEnd();
                 DatabaseManager.SaveStorageSOToDatabase(storage);
+                storage.ContainsItems = false;
             }
             if (storage.User != null) return;
             storage.nickname = "";

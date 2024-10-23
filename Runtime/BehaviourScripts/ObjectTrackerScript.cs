@@ -27,9 +27,11 @@ namespace BehaviourScripts
             var pos = FindPositionOnScreen();
             var session = storage.User.Sessions[^1];
             var gameId = session.GamesList[^1].Id;
-            m_Aoi = new Aoi(gameId + " " + name,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
+            var objectName = gameId + storage.CurrentObject + " " + name;
+            m_Aoi = new Aoi(objectName,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
             m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
-            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(name,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
+            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(objectName,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
+            storage.CurrentObject++;
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             AddPosition();

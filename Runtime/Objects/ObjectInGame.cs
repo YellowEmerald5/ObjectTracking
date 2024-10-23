@@ -26,10 +26,10 @@ namespace Objects
         [NotNull]
         public float EndPositionY { get; set; }
 
-        public ObjectInGame(string objectName, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY)
+        public ObjectInGame(string name, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY)
         {
             GameId = gameId;
-            Name = $"{gameId} {objectName}";
+            Name = name;
             Aoi = aoi;
             Points = new List<Point>();
             TimeSpawn = timeSpawn;

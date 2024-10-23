@@ -12,6 +12,7 @@ namespace ScriptableObjectScripts
         public int sessionID;
         public Dictionary<string, int> currentTimePlaying = new ();
         public bool ContainsItems = false;
+        public int CurrentObject = 0;
 
         public void SetNickname(string n)
         {

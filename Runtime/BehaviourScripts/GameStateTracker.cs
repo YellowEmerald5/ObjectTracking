@@ -28,5 +28,10 @@ namespace BehaviourScripts
             storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
             storage.ContainsItems = true;
         }
+
+        private void OnDisable()
+        {
+            storage.CurrentObject = 0;
+        }
     }
 }
