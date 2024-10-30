@@ -8,10 +8,7 @@ namespace ScriptableObjectScripts
     {
         //This object is created to contain scriptable objects needed to reliably set up tracking of objects
         public StorageSO storage;
-        public GameEvent objectCreated;
-        public GameEvent addedToList;
-        public GameEvent gameFinished;
-        public GameEvent completedWriting;
         public GameEvent nicknameAdded;
+        public GameEvent gameReady;
     }
 }

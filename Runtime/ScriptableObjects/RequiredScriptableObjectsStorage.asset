@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: RequiredScriptableObjectsStorage
   m_EditorClassIdentifier: 
   storage: {fileID: 11400000, guid: 18fb58c8a2522f245b05d6bd6801d86f, type: 2}
-  objectCreated: {fileID: 11400000, guid: 0ce2c3c8d97b4d04b947316b0181e78f, type: 2}
-  addedToList: {fileID: 11400000, guid: 0d2e56f978cf01b46b1b352cd526b774, type: 2}
-  gameFinished: {fileID: 11400000, guid: a2e36d8176e60c942b96764f510fdd6b, type: 2}
-  completedWriting: {fileID: 11400000, guid: 0aaec2f4d2832f94691f14840ca9dafa, type: 2}
   nicknameAdded: {fileID: 11400000, guid: 4073f07bf8cee6842bb949763763e8f1, type: 2}
+  gameReady: {fileID: 11400000, guid: 61e9aeca1ba47e249994df1ac119783e, type: 2}

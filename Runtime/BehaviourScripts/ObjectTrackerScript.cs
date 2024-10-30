@@ -21,6 +21,7 @@ namespace BehaviourScripts
         //Sets up the AOI and object tracking before raising the ObjectCreated game event
         private void Start()
         {
+            if (storage.User == null) return;
             cam = FindObjectOfType<Camera>(); 
             Renderer = GetComponent<Renderer>();
             var scale = SizeOnScreen();
@@ -37,7 +38,7 @@ namespace BehaviourScripts
             AddPosition();
         }
 
-        //Tracks the current millisecond utc and position of the object every frame
+        ///Tracks the current millisecond utc and position of the object every frame
         private void Update()
         {
             AddPosition();
