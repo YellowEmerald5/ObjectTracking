@@ -8,9 +8,9 @@ namespace SetUpScripts
 {
     public class SetUpObjectTracking : MonoBehaviour
     {
-        private ObjectTrackerScript TrackerScript;
         private RequiredScriptableObjectsStorage gameEvents;
         [SerializeField] public bool TrackChildObjects;
+        [SerializeField] public bool TrackParent;
 
         /// <summary>
         /// Sets up a ObjectTracker script for the object it is attached to
@@ -20,14 +20,43 @@ namespace SetUpScripts
             gameEvents = FindObjectOfType<RequiredScriptableObjectsStorageScript>().requiredScriptables;
             if (TrackChildObjects)
             {
-                var childObjects = gameObject.GetComponentsInChildren<Transform>();
-                print(childObjects.Length);
+                SetUpMultiple(gameObject);
             }
             else
             {
-                TrackerScript = gameObject.AddComponent<ObjectTrackerScript>();
-                TrackerScript.storage = gameEvents.storage;
+                SetUpObject(gameObject);
             }
+        }
+
+        private void SetUpMultiple(GameObject obj)
+        {
+            var childObjects = obj.transform.GetComponentsInChildren<Transform>();
+            print(childObjects.Length);
+            if (TrackParent)
+            {
+                foreach (var childObj in childObjects)
+                {
+                    SetUpObject(childObj.gameObject);
+                }
+            }
+            else
+            {
+                for (var i = 1; i < childObjects.Length; i++)
+                {
+                    var childObj = childObjects[i].gameObject;
+                    var children = childObj.transform.GetComponentsInChildren<Transform>();
+                    if (children.Length == 1)
+                    {
+                        SetUpObject(childObj); 
+                    }
+                } 
+            }
+        }
+
+        private void SetUpObject(GameObject obj)
+        {
+            var tracker = obj.gameObject.AddComponent<ObjectTrackerScript>();
+            tracker.storage = gameEvents.storage;
         }
     }
 }
