@@ -10,6 +10,7 @@ namespace SetUpScripts
     {
         private ObjectTrackerScript TrackerScript;
         private RequiredScriptableObjectsStorage gameEvents;
+        [SerializeField] public bool TrackChildObjects;
 
         /// <summary>
         /// Sets up a ObjectTracker script for the object it is attached to
@@ -17,8 +18,16 @@ namespace SetUpScripts
         private void Start()
         {
             gameEvents = FindObjectOfType<RequiredScriptableObjectsStorageScript>().requiredScriptables;
-            TrackerScript = gameObject.AddComponent<ObjectTrackerScript>();
-            TrackerScript.storage = gameEvents.storage;
+            if (TrackChildObjects)
+            {
+                var childObjects = gameObject.GetComponentsInChildren<Transform>();
+                print(childObjects.Length);
+            }
+            else
+            {
+                TrackerScript = gameObject.AddComponent<ObjectTrackerScript>();
+                TrackerScript.storage = gameEvents.storage;
+            }
         }
     }
 }
