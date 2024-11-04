@@ -10,7 +10,7 @@ namespace SetUpScripts
     {
         private RequiredScriptableObjectsStorage gameEvents;
         [SerializeField] public bool TrackChildObjects;
-        [SerializeField] public bool TrackParent;
+        [SerializeField] public bool TrackParents;
 
         /// <summary>
         /// Sets up a ObjectTracker script for the object it is attached to
@@ -32,7 +32,7 @@ namespace SetUpScripts
         {
             var childObjects = obj.transform.GetComponentsInChildren<Transform>();
             print(childObjects.Length);
-            if (TrackParent)
+            if (TrackParents)
             {
                 foreach (var childObj in childObjects)
                 {
