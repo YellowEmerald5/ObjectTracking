@@ -3,14 +3,17 @@ using ObjectTracking.GameEventScripts;
 using ScriptableObjectScripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace SetUpScripts
 {
     public class SetUpObjectTracking : MonoBehaviour
     {
         private RequiredScriptableObjectsStorage gameEvents;
+        [Tooltip("Tracks child objects with no children")]
         [SerializeField] public bool TrackChildObjects;
-        [SerializeField] public bool TrackParents;
+        [Tooltip("Tracks all objects under the attached object")]
+        [SerializeField] public bool TrackAllObjects;
 
         /// <summary>
         /// Sets up a ObjectTracker script for the object it is attached to
@@ -18,8 +21,12 @@ namespace SetUpScripts
         private void Start()
         {
             gameEvents = FindObjectOfType<RequiredScriptableObjectsStorageScript>().requiredScriptables;
-            if (TrackChildObjects)
+            if (TrackChildObjects || TrackAllObjects)
             {
+                if (TrackAllObjects && !TrackChildObjects)
+                {
+                    TrackChildObjects = true;
+                }
                 SetUpMultiple(gameObject);
             }
             else
@@ -32,7 +39,7 @@ namespace SetUpScripts
         {
             var childObjects = obj.transform.GetComponentsInChildren<Transform>();
             print(childObjects.Length);
-            if (TrackParents)
+            if (TrackAllObjects)
             {
                 foreach (var childObj in childObjects)
                 {
