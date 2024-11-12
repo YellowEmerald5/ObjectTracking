@@ -52,10 +52,6 @@ namespace BehaviourScripts
         private void AddPosition()
         {
             var pos = FindPositionOnScreen();
-            foreach (var session in storage.User.Sessions)
-            {
-                print(session.Id);
-            }
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(
                 Name, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y));
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.Origins.Add(new AoiOrigin(m_Aoi.Id,pos));
