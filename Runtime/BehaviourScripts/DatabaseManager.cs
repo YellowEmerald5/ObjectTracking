@@ -48,10 +48,8 @@ namespace BehaviourScripts
 
             foreach (var game in storage.User.Sessions[^1].GamesList)
             {
-                if (session != null && !session.GamesList.Contains(game))
-                {
-                    connection.Insert(game);
-                }
+                if (session == null || session.GamesList.Contains(game)) continue;
+                connection.Insert(game);
                 foreach (var obj in game.Objects)
                 {
                     connection.Insert(obj);
