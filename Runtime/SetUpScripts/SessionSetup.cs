@@ -1,7 +1,9 @@
-﻿using BehaviourScripts;
+﻿using System;
+using BehaviourScripts;
 using Objects;
 using ScriptableObjectScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SetUpScripts
 {
@@ -9,6 +11,11 @@ namespace SetUpScripts
     {
         public StorageSO storage;
         private bool _saved;
+
+        private void Awake()
+        {
+            SceneManager.activeSceneChanged += OnLoad;
+        }
 
         /// <summary>
         /// Gets the session count associated with the nickname from the database
@@ -33,7 +40,7 @@ namespace SetUpScripts
         /// <summary>
         /// Sets up a scenario without a user
         /// </summary>
-        private void OnDestroy()
+        private void OnLoad(Scene current, Scene next)
         {
             if (!_saved && storage.ContainsItems)
             {

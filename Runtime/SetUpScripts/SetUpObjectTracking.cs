@@ -38,7 +38,6 @@ namespace SetUpScripts
         private void SetUpMultiple(GameObject obj)
         {
             var childObjects = obj.transform.GetComponentsInChildren<Transform>();
-            print(childObjects.Length);
             if (TrackAllObjects)
             {
                 foreach (var childObj in childObjects)
