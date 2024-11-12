@@ -16,18 +16,6 @@ namespace BehaviourScripts
         private void OnEnable()
         {
             EditorApplication.playModeStateChanged += ResetStorageSO;
-            SceneManager.activeSceneChanged += OnSceneChanged;
-        }
-
-        private void OnSceneChanged(Scene current, Scene next)
-        {
-            if(storage.ContainsItems)
-            {
-                foreach (var session in storage.User.Sessions)
-                {
-                    session.GamesList = new List<Game>();
-                }
-            }
         }
 
         /// <summary>
