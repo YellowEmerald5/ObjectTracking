@@ -21,6 +21,7 @@ namespace BehaviourScripts
 
         private void OnSceneChanged(Scene current, Scene next)
         {
+            print(storage.User.Sessions);
             if(storage.ContainsItems)
             {
                 foreach (var session in storage.User.Sessions)
