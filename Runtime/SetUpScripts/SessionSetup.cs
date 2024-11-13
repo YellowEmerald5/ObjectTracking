@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BehaviourScripts;
 using Objects;
 using ScriptableObjectScripts;
@@ -29,6 +31,7 @@ namespace SetUpScripts
                 DatabaseManager.SaveStorageSOToDatabase(storage);
                 storage.ContainsItems = false;
                 _saved = true;
+                storage.User.Sessions.Last().GamesList = new List<Game>();
             }
             var user = DatabaseManager.GetUser(storage.nickname,storage);
             storage.User = user;

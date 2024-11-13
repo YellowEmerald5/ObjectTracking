@@ -29,7 +29,6 @@ namespace BehaviourScripts
                 storage.currentTimePlaying[key] ++;
             }
             if(storage.User == null) return;
-            storage.User.Sessions.Last().GamesList = new List<Game>();
             storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
             storage.GameID = storage.User.Sessions[^1].GamesList[^1].Id;
             scriptableObjects.gameReady.Raise();
