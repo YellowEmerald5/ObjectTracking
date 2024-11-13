@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using Codice.Client.BaseCommands;
 using LinqToDB;
 using LinqToDB.Data;
-using LinqToDB.Tools;
 using MySqlConnector;
 using Objects;
 using ScriptableObjectScripts;
@@ -52,6 +52,7 @@ namespace BehaviourScripts
                 connection.Insert(game);
                 foreach (var obj in game.Objects)
                 {
+                    Debug.Log("Inserting object");
                     connection.Insert(obj);
                     connection.Insert(obj.Aoi);
                     foreach (var point in obj.Points)
