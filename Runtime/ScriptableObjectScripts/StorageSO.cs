@@ -14,6 +14,7 @@ namespace ScriptableObjectScripts
         public bool ContainsItems = false;
         public int GameID = 0;
         public int CurrentObject = 0;
+        public bool StartTracking;
 
         public void SetNickname(string n)
         {

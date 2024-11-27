@@ -61,8 +61,20 @@ namespace SetUpScripts
 
         private void SetUpObject(GameObject obj)
         {
+            print("Setting up object tracker");
             var tracker = obj.gameObject.AddComponent<ObjectTrackerScript>();
             tracker.storage = gameEvents.storage;
+            if (gameEvents.storage.StartTracking)
+            {
+                print("Starting tracking");
+                tracker.StartTracker();
+            }
+            else
+            {
+                print("Preparations for tracking");
+                GameEventListenerSetup.SetUpEventListener(obj.gameObject,tracker.StartTracker,gameEvents.gameReady);
+            }
+            
         }
     }
 }

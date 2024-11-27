@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Codice.Client.BaseCommands;
 using LinqToDB;
 using LinqToDB.Data;
@@ -46,13 +47,16 @@ namespace BehaviourScripts
                 connection.Insert(storage.User.Sessions.LastOrDefault());
             }
 
+            Debug.Log("Saving...");
             foreach (var game in storage.User.Sessions[^1].GamesList)
             {
-                if (session == null || session.GamesList.Contains(game)) continue;
+                Debug.Log("Adding game");
+                Debug.Log(storage.User.Sessions[^1].GamesList.Count);
+                Debug.Log(game.Id + " " + game.Name);
                 connection.Insert(game);
                 foreach (var obj in game.Objects)
                 {
-                    Debug.Log("Inserting object");
+                    Debug.Log("Adding objects");
                     connection.Insert(obj);
                     connection.Insert(obj.Aoi);
                     foreach (var point in obj.Points)
@@ -71,10 +75,11 @@ namespace BehaviourScripts
                     }
                 }
             }
+            
+            Debug.Log("Completed saving");
 
             connection.Close();
             connection.Dispose();
-
         }
 
         /// <summary>

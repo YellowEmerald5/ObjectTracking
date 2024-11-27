@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: 
   sessionID: 0
+  ContainsItems: 0
+  GameID: 0
+  CurrentObject: 0
+  StartTracking: 0

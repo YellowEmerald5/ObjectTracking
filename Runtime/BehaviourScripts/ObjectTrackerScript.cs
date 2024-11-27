@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Objects;
 using ScriptableObjectScripts;
 using UnityEngine;
@@ -17,10 +18,13 @@ namespace BehaviourScripts
         private string Name;
         private bool CameraDestroyed = false;
         private Renderer Renderer;
+        private bool objectAdded;
+        private bool IsTracking;
         
         //Sets up the AOI and object tracking before raising the ObjectCreated game event
-        private void Start()
+        public void StartTracker()
         {
+            print("Starting tracking");
             if (storage.User == null) return;
             cam = FindObjectOfType<Camera>(); 
             Renderer = GetComponent<Renderer>();
@@ -32,15 +36,17 @@ namespace BehaviourScripts
             m_Aoi = new Aoi(objectName,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
             m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
             storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(objectName,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
+            PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             storage.CurrentObject++;
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
-            PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
+            objectAdded = true;
             AddPosition();
         }
 
         ///Tracks the current millisecond utc and position of the object every frame
         private void Update()
         {
+            if (!objectAdded) return;
             AddPosition();
             var scale = SizeOnScreen();
             m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));

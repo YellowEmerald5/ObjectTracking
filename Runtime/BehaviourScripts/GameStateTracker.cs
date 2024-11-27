@@ -29,8 +29,9 @@ namespace BehaviourScripts
                 storage.currentTimePlaying[key] ++;
             }
             if(storage.User == null) return;
-            storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
+            storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],storage.currentTimePlaying.Count,SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
             storage.GameID = storage.User.Sessions[^1].GamesList[^1].Id;
+            storage.StartTracking = true;
             scriptableObjects.gameReady.Raise();
             storage.ContainsItems = true;
         }
@@ -38,6 +39,7 @@ namespace BehaviourScripts
         private void OnDisable()
         {
             storage.CurrentObject = 0;
+            storage.StartTracking = false;
         }
     }
 }

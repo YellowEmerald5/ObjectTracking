@@ -26,10 +26,16 @@ namespace BehaviourScripts
         private void ResetStorageSO(PlayModeStateChange state)
         {
             if (state != PlayModeStateChange.EnteredEditMode) return;
+            if (storage.ContainsItems)
+            {
+                DatabaseManager.SaveStorageSOToDatabase(storage);
+            }
             storage.User = null;
+            storage.GameID = 0;
             storage.sessionID = 0;
             storage.nickname = "";
             storage.ContainsItems = false;
+            storage.StartTracking = false;
         }
     }
 }
