@@ -20,9 +20,10 @@ namespace SetUpScripts
             var obj = gameObject;
             sessionSetup = obj.AddComponent<SessionSetup>();
             sessionSetup.storage = requiredScriptableObjects.storage;
+            sessionSetup.SetUpDefaultSession();
             storageReset = obj.AddComponent<StorageReset>();
             storageReset.storage = requiredScriptableObjects.storage;
-
+            
             GameEventListenerSetup.SetUpEventListener(obj,sessionSetup.GetSessionCount,requiredScriptableObjects.nicknameAdded);
         }
     }

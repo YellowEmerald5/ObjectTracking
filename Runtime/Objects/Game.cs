@@ -17,12 +17,12 @@ namespace Objects
         [Nullable]
         public List<ObjectInGame> Objects { get; }
         
-        public Game(int timesPlayed,string name, int userId, int sessionId)
+        public Game(int timesPlayed, int amountOfGamesPlayed,string name, int userId, int sessionId)
         {
             TimesPlayed = timesPlayed;
             Name = name;
             SessionId = sessionId;
-            var idString = $"{userId}{sessionId}{timesPlayed}";
+            var idString = $"{userId}{sessionId}{amountOfGamesPlayed}{timesPlayed}";
             Id = int.Parse(idString);
             Objects = new List<ObjectInGame>();
         }
