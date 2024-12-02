@@ -14,13 +14,16 @@ namespace Objects
         public float PosX { get; }
         [NotNull]
         public float PosY { get; }
+        [NotNull]
+        public float PosZ { get; }
 
-        public Point(string objectName, long time, float posX, float posY)
+        public Point(string objectName, long time, float posX, float posY, float posZ)
         {
             ObjectName = objectName;
             Time = time;
             PosX = posX;
             PosY = posY;
+            PosZ = posZ;
         }
     }
 }
