@@ -16,10 +16,13 @@ namespace Objects
         
         [Nullable]
         public List<ObjectInGame> Objects { get; }
+        [Nullable]
+        public int AmountOfGamesPlayed { get; set; }
         
         public Game(int timesPlayed, int amountOfGamesPlayed,string name, int userId, int sessionId)
         {
             TimesPlayed = timesPlayed;
+            AmountOfGamesPlayed = amountOfGamesPlayed;
             Name = name;
             SessionId = sessionId;
             var idString = $"{userId}{sessionId}{amountOfGamesPlayed}{timesPlayed}";
