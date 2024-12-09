@@ -15,7 +15,10 @@ namespace BehaviourScripts
         [SerializeField] public RequiredScriptableObjectsStorage scriptableObjects;
         private StorageSO storage;
 
-        //Sets up the StorageSO for the current session and game
+        /// <summary>
+        /// Sets up the StorageSO for the current session and game and sets startTracking to true
+        /// StartTracking is used to inform gameobjects that the required data is prepared
+        /// </summary>
         void Start()
         {
             storage = scriptableObjects.storage;
@@ -36,6 +39,10 @@ namespace BehaviourScripts
             storage.ContainsItems = true;
         }
 
+        /// <summary>
+        /// Ensures the currentObject is zero for the next scene to accurately represent the amount of objects present in the current game
+        /// Ensures game objects will not start tracking prior to required data becoming available
+        /// </summary>
         private void OnDisable()
         {
             storage.CurrentObject = 0;

@@ -47,16 +47,11 @@ namespace BehaviourScripts
                 connection.Insert(storage.User.Sessions.LastOrDefault());
             }
 
-            Debug.Log("Saving...");
             foreach (var game in storage.User.Sessions[^1].GamesList)
             {
-                Debug.Log("Adding game");
-                Debug.Log(storage.User.Sessions[^1].GamesList.Count);
-                Debug.Log(game.Id + " " + game.Name);
                 connection.Insert(game);
                 foreach (var obj in game.Objects)
                 {
-                    Debug.Log("Adding objects");
                     connection.Insert(obj);
                     connection.Insert(obj.Aoi);
                     foreach (var point in obj.Points)
@@ -75,8 +70,6 @@ namespace BehaviourScripts
                     }
                 }
             }
-            
-            Debug.Log("Completed saving");
 
             connection.Close();
             connection.Dispose();
@@ -140,38 +133,38 @@ namespace BehaviourScripts
         public static User GetUser(string nickname,StorageSO storage)
         {
             var connection = GetDataConnection();
-            User[] users;
+            User user;
             try
             {
-                users = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
+                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
             }
             catch (MySqlException ex)
             {
                 SetUpTables();
-                users = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
+                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
             }
             
-            if (users.Length == 0)
+            if (user != null)
             {
-                users = InsertNewUser(storage);
+                user = InsertNewUser(storage);
             }
             
             connection.Close();
             connection.Dispose();
-            return users.FirstOrDefault(u => u.Nickname.Equals(nickname));
+            return user;
         }
 
         /// <summary>
-        /// Inserts a user into the database
+        /// Inserts a user into the database and returns it. It is added and returned to give it an id and ensure coherence
         /// </summary>
         /// <param name="storage">Scriptable object containing data for the object tracking</param>
-        /// <returns></returns>
-        private static User[] InsertNewUser(StorageSO storage)
+        /// <returns>Returns the user after adding it to the database</returns>
+        private static User InsertNewUser(StorageSO storage)
         {
             var connection = GetDataConnection();
             connection.Insert(new User(storage.nickname));
             var users = connection.GetTable<User>().Where(u => u.Nickname.Equals(storage.nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
-            return users;
+            return users.FirstOrDefault(u => u.Nickname.Equals(storage.nickname));
         }
 
         /// <summary>

@@ -11,11 +11,20 @@ namespace BehaviourScripts
     public class GameSaver : MonoBehaviour
     {
         [SerializeField] private StorageSO storage;
+        
+        /// <summary>
+        /// Makes the SceneManager inform this script when a new scene is loaded
+        /// </summary>
         private void Start()
         {
             SceneManager.activeSceneChanged += OnSceneChanged;
         }
 
+        /// <summary>
+        /// Saves the data in the storage and empties the game list to lessen program impact
+        /// </summary>
+        /// <param name="current">The current loaded scene (Unused)</param>
+        /// <param name="next">The next scene to be loaded (Unused)</param>
         private void OnSceneChanged(Scene current, Scene next)
         {
             if (!storage.ContainsItems) return;
@@ -25,6 +34,9 @@ namespace BehaviourScripts
             storage.User.Sessions[^1].GamesList = new List<Game>();
         }
         
+        /// <summary>
+        /// Sets the last values for the object to the end values of the object
+        /// </summary>
         private void SetObjectEnd()
         {
             foreach (var obj in storage.User.Sessions[^1].GamesList[^1].Objects)

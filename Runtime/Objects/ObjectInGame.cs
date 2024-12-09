@@ -20,13 +20,17 @@ namespace Objects
         [NotNull]
         public float SpawnPositionY { get; set; }
         [NotNull]
+        public float SpawnPositionZ { get; set; }
+        [NotNull]
         public long TimeDestroyed { get; set; }
         [NotNull]
         public float EndPositionX { get; set; }
         [NotNull]
         public float EndPositionY { get; set; }
+        [NotNull]
+        public float EndPositionZ { get; set; }
 
-        public ObjectInGame(string name, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY)
+        public ObjectInGame(string name, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY, float spawnPositionZ)
         {
             GameId = gameId;
             Name = name;
@@ -35,6 +39,7 @@ namespace Objects
             TimeSpawn = timeSpawn;
             SpawnPositionX = spawnPositionX;
             SpawnPositionY = spawnPositionY;
+            SpawnPositionZ = spawnPositionZ;
         }
     }
 }

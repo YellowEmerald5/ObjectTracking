@@ -21,10 +21,11 @@ namespace BehaviourScripts
         private bool objectAdded;
         private bool IsTracking;
         
-        //Sets up the AOI and object tracking before raising the ObjectCreated game event
+        /// <summary>
+        /// Sets up the AOI and object tracking before raising the ObjectCreated game event
+        /// </summary>
         public void StartTracker()
         {
-            print("Starting tracking");
             if (storage.User == null) return;
             cam = FindObjectOfType<Camera>(); 
             Renderer = GetComponent<Renderer>();
@@ -35,7 +36,7 @@ namespace BehaviourScripts
             var objectName = gameId + storage.CurrentObject + " " + name;
             m_Aoi = new Aoi(objectName,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
             m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
-            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(objectName,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y));
+            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(objectName,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y,pos.z));
             PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
             storage.CurrentObject++;
             Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
@@ -43,7 +44,9 @@ namespace BehaviourScripts
             AddPosition();
         }
 
-        ///Tracks the current millisecond utc and position of the object every frame
+        /// <summary>
+        /// Tracks the current millisecond utc and position of the object every frame
+        /// </summary>
         private void Update()
         {
             if (!objectAdded) return;
@@ -59,7 +62,7 @@ namespace BehaviourScripts
         {
             var pos = FindPositionOnScreen();
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(
-                Name, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y));
+                Name, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y, pos.z));
             storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.Origins.Add(new AoiOrigin(m_Aoi.Id,pos));
         }
 

@@ -11,8 +11,10 @@ namespace BehaviourScripts
     {
         public StorageSO storage;
         
-        //Sets up a listener to reset the storageSO when play mode is exited in the editor
-        //This will not run in the built application
+        /// <summary>
+        /// Sets up a listener to reset the storageSO when play mode is exited in the editor
+        /// This will not run in the built application
+        /// </summary>
         private void OnEnable()
         {
             EditorApplication.playModeStateChanged += ResetStorageSO;
