@@ -144,7 +144,7 @@ namespace BehaviourScripts
                 user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
             }
             
-            if (user != null)
+            if (user == null && storage.nickname != null)
             {
                 user = InsertNewUser(storage);
             }
