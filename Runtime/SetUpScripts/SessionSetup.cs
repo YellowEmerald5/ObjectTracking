@@ -22,9 +22,10 @@ namespace SetUpScripts
         {
             var user = DatabaseManager.GetUser(storage.nickname,storage);
             storage.User = user;
+            var sessionId = DatabaseManager.GetCurrentHighestSessionID();
             var sessionCount = DatabaseManager.GetSessionCount(storage.User.Id);
-            storage.sessionID = sessionCount+1;
-            storage.User.Sessions.Add(new Session(storage.sessionID, storage.User.Id));
+            storage.sessionID = sessionId+1;
+            storage.User.Sessions.Add(new Session(storage.sessionID,sessionCount+1, storage.User.Id));
             storage.User.Sessions.Last().GamesList = new List<Game>();
         }
 

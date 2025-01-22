@@ -9,14 +9,17 @@ namespace Objects
         [PrimaryKey,Identity]
         public int Id { get; }
         [NotNull]
+        public int SessionNumber { get; set; }
+        [NotNull]
         public int UserId { get; set; }
         
         [Nullable]
         public List<Game> GamesList { get; set; }
 
-        public Session(int sessionId, int userId)
+        public Session(int sessionId, int sessionNumber, int userId)
         {
             UserId = userId;
+            SessionNumber = sessionNumber;
             Id = sessionId;
             GamesList = new List<Game>();
         }

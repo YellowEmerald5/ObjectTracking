@@ -32,7 +32,7 @@ namespace BehaviourScripts
             if (user != null)
             {
                 var sessions = connection.GetTable<Session>().Where(s => s.UserId == user.Id)
-                    .Select(s => new Session(s.Id, s.UserId)).ToArray();
+                    .Select(s => new Session(s.Id,s.SessionNumber, s.UserId)).ToArray();
                 var res = sessions.LastOrDefault();
                 session = res;
             }
@@ -171,12 +171,24 @@ namespace BehaviourScripts
         /// Gets the amount of sessions referring to the user
         /// </summary>
         /// <param name="userId">The identifier for the user</param>
-        /// <returns>NUmber of sessions</returns>
+        /// <returns>Number of sessions</returns>
         public static int GetSessionCount(int userId)
         {
             var connection = GetDataConnection();
             var sessions = connection.GetTable<Session>().Where(s => s.UserId == userId)
-                .Select(s => new Session(s.Id, s.UserId)).ToArray();
+                .Select(s => new Session(s.Id,s.SessionNumber, s.UserId)).ToArray();
+            return sessions.Length;
+        }
+
+        /// <summary>
+        /// Finds the current highest session id and returns it. Used for giving ids to sessions.
+        /// </summary>
+        /// <returns>Number of existing sessions</returns>
+        public static int GetCurrentHighestSessionID()
+        {
+            var connection = GetDataConnection();
+            var sessions = connection.GetTable<Session>().Select(s => new Session(s.Id, s.SessionNumber, s.UserId))
+                .ToArray();
             return sessions.Length;
         }
 
