@@ -20,8 +20,12 @@ namespace Objects
         public List<ObjectInGame> Objects { get; }
         [Nullable]
         public int AmountOfGamesPlayed { get; set; }
+        [Nullable]
+        public float WindowHeight { get; set; }
+        [Nullable]
+        public float WindowWidth { get; set; }
         
-        public Game(int timesPlayed, int amountOfGamesPlayed,string name, int userId, int sessionId)
+        public Game(int timesPlayed, int amountOfGamesPlayed,string name, int userId, int sessionId, float windowHeight, float windowWidth)
         {
             TimesPlayed = timesPlayed;
             UserId = userId;
@@ -31,6 +35,8 @@ namespace Objects
             var idString = $"{userId}{sessionId}{amountOfGamesPlayed}{timesPlayed}";
             Id = int.Parse(idString);
             Objects = new List<ObjectInGame>();
+            WindowHeight = windowHeight;
+            WindowWidth = windowWidth;
         }
     }
 }

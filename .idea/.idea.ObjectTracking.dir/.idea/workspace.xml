@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82ef276d-8268-4006-9f1a-c2be20048f18" name="Changes" comment="" />
+    <list default="true" id="82ef276d-8268-4006-9f1a-c2be20048f18" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Runtime/Objects/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Objects/Game.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,6 +72,7 @@
       <workItem from="1728456193779" duration="173000" />
       <workItem from="1728456377977" duration="4543000" />
       <workItem from="1728895654940" duration="210000" />
+      <workItem from="1740123791214" duration="364000" />
     </task>
     <servers />
   </component>

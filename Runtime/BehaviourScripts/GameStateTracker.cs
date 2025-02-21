@@ -32,7 +32,7 @@ namespace BehaviourScripts
                 storage.currentTimePlaying[key] ++;
             }
             if(storage.User == null) return;
-            storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],storage.currentTimePlaying.Count,SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID));
+            storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],storage.currentTimePlaying.Count,SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID,Screen.height,Screen.width));
             storage.GameID = storage.User.Sessions[^1].GamesList[^1].Id;
             storage.StartTracking = true;
             scriptableObjects.gameReady.Raise();
