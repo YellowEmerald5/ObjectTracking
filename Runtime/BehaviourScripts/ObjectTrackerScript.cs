@@ -1,25 +1,22 @@
 using System;
-using System.Collections.Generic;
 using Objects;
 using ScriptableObjectScripts;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace BehaviourScripts
 {
     public class ObjectTrackerScript : MonoBehaviour
     {
         //Place this script on all objects to be tracked
-        [SerializeField] public StorageSO storage;
-        private int PositionOfObject;
-        private Aoi m_Aoi;
-        private Camera cam;
-        private string Name;
-        private bool CameraDestroyed = false;
-        private Renderer Renderer;
-        private bool objectAdded;
-        private bool IsTracking;
+        public StorageSO storage;
+        private int _positionOfObject;
+        private Aoi _aoi;
+        private Camera _cam;
+        private bool _cameraDestroyed = false;
+        private Renderer _renderer;
+        private bool _objectAdded;
+        private bool _isTracking;
+        private int _objectId;
         
         /// <summary>
         /// Sets up the AOI and object tracking before raising the ObjectCreated game event
@@ -27,20 +24,18 @@ namespace BehaviourScripts
         public void StartTracker()
         {
             if (storage.User == null) return;
-            cam = FindObjectOfType<Camera>(); 
-            Renderer = GetComponent<Renderer>();
+            _cam = FindObjectOfType<Camera>(); 
+            _renderer = GetComponent<Renderer>();
             var scale = SizeOnScreen();
             var pos = FindPositionOnScreen();
-            var session = storage.User.Sessions[^1];
-            var gameId = session.GamesList[^1].Id;
-            var objectName = gameId + storage.CurrentObject + " " + name;
-            m_Aoi = new Aoi(objectName,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
-            m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
-            storage.User.Sessions[^1].GamesList[^1].Objects.Add(new ObjectInGame(objectName,m_Aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y,pos.z));
-            PositionOfObject = storage.User.Sessions[^1].GamesList[^1].Objects.Count - 1;
+            var gameId = storage.GameID;
+            _objectId = storage.availableObjectId + storage.User.Games[^1].Objects.Count;
+            _aoi = new Aoi(_objectId,_objectId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos);
+            _aoi.Sizes.Add(new AoiSize(_aoi.Id,scale.y,scale.x));
+            storage.User.Games[^1].Objects.Add(new ObjectInGame(_objectId,name,_aoi,gameId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),pos.x,pos.y,pos.z));
+            _positionOfObject = storage.User.Games[^1].Objects.Count - 1;
             storage.CurrentObject++;
-            Name = storage.User.Sessions[^1].GamesList[^1].Objects[^1].Name;
-            objectAdded = true;
+            _objectAdded = true;
             AddPosition();
         }
 
@@ -49,10 +44,10 @@ namespace BehaviourScripts
         /// </summary>
         private void Update()
         {
-            if (!objectAdded) return;
+            if (!_objectAdded) return;
             AddPosition();
             var scale = SizeOnScreen();
-            m_Aoi.Sizes.Add(new AoiSize(m_Aoi.Id,scale.y,scale.x));
+            _aoi.Sizes.Add(new AoiSize(_aoi.Id,scale.y,scale.x));
         }
 
         /// <summary>
@@ -61,9 +56,9 @@ namespace BehaviourScripts
         private void AddPosition()
         {
             var pos = FindPositionOnScreen();
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Points.Add(new Point(
-                Name, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y, pos.z));
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.Origins.Add(new AoiOrigin(m_Aoi.Id,pos));
+            storage.User.Games[^1].Objects[_positionOfObject].Points.Add(new Point(_objectId
+                , DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), pos.x, pos.y, pos.z));
+            storage.User.Games[^1].Objects[_positionOfObject].Aoi.Origins.Add(new AoiOrigin(_aoi.Id,pos));
         }
 
         /// <summary>
@@ -72,10 +67,10 @@ namespace BehaviourScripts
         /// <returns>Current position</returns>
         private Vector3 FindPositionOnScreen()
         {
-            if (!CameraDestroyed && cam == null) CameraDestroyed = true;
-            if (CameraDestroyed) return new Vector3();
+            if (!_cameraDestroyed && _cam == null) _cameraDestroyed = true;
+            if (_cameraDestroyed) return new Vector3();
             var pos = transform.position;
-            var positionOnScreen = cam.WorldToScreenPoint(pos);
+            var positionOnScreen = _cam.WorldToScreenPoint(pos);
             return positionOnScreen;
 
         }
@@ -87,12 +82,12 @@ namespace BehaviourScripts
         {
             var pos = FindPositionOnScreen();
             var time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.TimeDestroy = time;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.EndPositionX = pos.x;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].Aoi.EndPositionY = pos.y;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].TimeDestroyed = time;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.x;
-            storage.User.Sessions[^1].GamesList[^1].Objects[PositionOfObject].EndPositionX = pos.y;
+            storage.User.Games[^1].Objects[_positionOfObject].Aoi.TimeDestroy = time;
+            storage.User.Games[^1].Objects[_positionOfObject].Aoi.EndPositionX = pos.x;
+            storage.User.Games[^1].Objects[_positionOfObject].Aoi.EndPositionY = pos.y;
+            storage.User.Games[^1].Objects[_positionOfObject].TimeDestroyed = time;
+            storage.User.Games[^1].Objects[_positionOfObject].EndPositionX = pos.x;
+            storage.User.Games[^1].Objects[_positionOfObject].EndPositionX = pos.y;
             Destroy(this);
         }
 
@@ -102,12 +97,12 @@ namespace BehaviourScripts
         /// <returns>Object size</returns>
         private Vector2 SizeOnScreen()
         {
-            var bounds = Renderer.bounds;
+            var bounds = _renderer.bounds;
             var min = bounds.min * 1.05f;
             var max = bounds.max * 1.05f;
 
-            var screenMin = cam.WorldToScreenPoint(min);
-            var screenMax = cam.WorldToScreenPoint(max);
+            var screenMin = _cam.WorldToScreenPoint(min);
+            var screenMax = _cam.WorldToScreenPoint(max);
 
             var screenWidth = screenMax.x - screenMin.x;
             var screenHeight = screenMax.y - screenMin.y;

@@ -3,6 +3,7 @@ using System.Linq;
 using Codice.Client.BaseCommands;
 using LinqToDB;
 using LinqToDB.Data;
+using LinqToDB.Linq;
 using MySqlConnector;
 using Objects;
 using ScriptableObjectScripts;
@@ -26,28 +27,15 @@ namespace BehaviourScripts
         {
             var connection = GetDataConnection();
 
-            var users = connection.GetTable<User>().Select(u => new User(u.Id, u.Nickname, u.Sessions)).ToArray();
+            var users = connection.GetTable<User>().Select(u => new User(u.Id, u.Nickname, u.Games)).ToArray();
             var user = users.FirstOrDefault(u => u.Nickname.Equals(storage.nickname));
-            Session session = null;
-            if (user != null)
-            {
-                var sessions = connection.GetTable<Session>().Where(s => s.UserId == user.Id)
-                    .Select(s => new Session(s.Id,s.SessionNumber, s.UserId)).ToArray();
-                var res = sessions.LastOrDefault();
-                session = res;
-            }
 
             if (user == null)
             {
                 connection.Insert(storage.User);
             }
 
-            if (session == null || session.Id != storage.User.Sessions[^1].Id)
-            {
-                connection.Insert(storage.User.Sessions.LastOrDefault());
-            }
-
-            foreach (var game in storage.User.Sessions[^1].GamesList)
+            foreach (var game in storage.User.Games)
             {
                 connection.Insert(game);
                 foreach (var obj in game.Objects)
@@ -82,7 +70,6 @@ namespace BehaviourScripts
         {
             var connection = GetDataConnection();
             connection.CreateTable<User>();
-            connection.CreateTable<Session>();
             connection.CreateTable<Game>();
             connection.CreateTable<ObjectInGame>();
             connection.CreateTable<Aoi>();
@@ -93,11 +80,10 @@ namespace BehaviourScripts
             connection.Close();
             connection.Dispose();
             
-            SetUpForeignKey("session","sessionuserfk", "UserId","User","Id");
-            SetUpForeignKey("game","gamesessionfk", "SessionId","Session","Id");
+            SetUpForeignKey("game","gameuserfk", "UserId","User","Id");
             SetUpForeignKey("objectingame","objectgamefk", "GameId","Game","Id");
-            SetUpForeignKey("aoi","aoiobjectfk", "ObjectName","ObjectInGame","Name");
-            SetUpForeignKey("point","pointobjectfk", "ObjectName","ObjectInGame","Name");
+            SetUpForeignKey("aoi","aoiobjectfk", "ObjectId","ObjectInGame","Id");
+            SetUpForeignKey("point","pointobjectfk", "ObjectId","ObjectInGame","Id");
             SetUpForeignKey("aoiorigin","originAoifk","AoiId","Aoi","Id");
             SetUpForeignKey("aoisize","sizeAoifk","AoiId","Aoi","Id");
         }
@@ -136,12 +122,12 @@ namespace BehaviourScripts
             User user;
             try
             {
-                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
+                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Games)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
             }
             catch (MySqlException ex)
             {
                 SetUpTables();
-                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
+                user = connection.GetTable<User>().Where(u => u.Nickname.Equals(nickname)).Select(u => new User(u.Id,u.Nickname,u.Games)).ToArray().FirstOrDefault(u => u.Nickname.Equals(nickname));
             }
             
             if (user == null && storage.nickname != null)
@@ -163,8 +149,39 @@ namespace BehaviourScripts
         {
             var connection = GetDataConnection();
             connection.Insert(new User(storage.nickname));
-            var users = connection.GetTable<User>().Where(u => u.Nickname.Equals(storage.nickname)).Select(u => new User(u.Id,u.Nickname,u.Sessions)).ToArray();
+            var users = connection.GetTable<User>().Where(u => u.Nickname.Equals(storage.nickname)).Select(u => new User(u.Id,u.Nickname,u.Games)).ToArray();
             return users.FirstOrDefault(u => u.Nickname.Equals(storage.nickname));
+        }
+
+        public static int AmountOfTimesPlayingTheSameGame(int userId, string gameName)
+        {
+            var connection = GetDataConnection();
+            try
+            {
+                return connection.GetTable<Game>().Count(g => g.UserId == userId && g.Name.Equals(gameName));
+            }
+            catch (Exception ex)
+            {
+                return -1;            
+            }
+        }
+        
+        public static int GetAvailableGameID()
+        {
+            var connection = GetDataConnection();
+            return connection.GetTable<Game>().Count()+1;
+        }
+
+        public static int GetAvailableObjectID()
+        {
+            var connection = GetDataConnection();
+            return connection.GetTable<ObjectInGame>().Count()+1;
+        }
+
+        public static int GetAvailableAoiID()
+        {
+            var connection = GetDataConnection();
+            return connection.GetTable<Aoi>().Count()+1;
         }
 
         /// <summary>
@@ -172,25 +189,25 @@ namespace BehaviourScripts
         /// </summary>
         /// <param name="userId">The identifier for the user</param>
         /// <returns>Number of sessions</returns>
-        public static int GetSessionCount(int userId)
+        /*public static int GetSessionCount(int userId)
         {
             var connection = GetDataConnection();
             var sessions = connection.GetTable<Session>().Where(s => s.UserId == userId)
                 .Select(s => new Session(s.Id,s.SessionNumber, s.UserId)).ToArray();
             return sessions.Length;
-        }
+        }*/
 
         /// <summary>
         /// Finds the current highest session id and returns it. Used for giving ids to sessions.
         /// </summary>
         /// <returns>Number of existing sessions</returns>
-        public static int GetCurrentHighestSessionID()
+        /*public static int GetCurrentHighestSessionID()
         {
             var connection = GetDataConnection();
             var sessions = connection.GetTable<Session>().Select(s => new Session(s.Id, s.SessionNumber, s.UserId))
                 .ToArray();
             return sessions.Length;
-        }
+        }*/
 
         /// <summary>
         /// Sets up a new data connection

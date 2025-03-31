@@ -23,17 +23,19 @@ namespace BehaviourScripts
         {
             storage = scriptableObjects.storage;
             var key = SceneManager.GetActiveScene().name;
-            if (!storage.currentTimePlaying.ContainsKey(key))
+            if (storage.currentTimePlaying == -1)
             {
-                storage.currentTimePlaying.Add(key, 1);
+                
             }
-            else
-            {
-                storage.currentTimePlaying[key] ++;
-            }
+            
             if(storage.User == null) return;
-            storage.User.Sessions[^1].GamesList.Add(new Game(storage.currentTimePlaying[key],storage.currentTimePlaying.Count,SceneManager.GetActiveScene().name,storage.User.Id,storage.sessionID,Screen.height,Screen.width));
-            storage.GameID = storage.User.Sessions[^1].GamesList[^1].Id;
+            var userId = storage.User.Id;
+            var gameName = SceneManager.GetActiveScene().name;
+            var id = DatabaseManager.GetAvailableGameID();
+            var currentTimePlaying = DatabaseManager.AmountOfTimesPlayingTheSameGame(userId,gameName);
+            storage.User.Games.Add(new Game(id,currentTimePlaying+1,SceneManager.GetActiveScene().name, userId,Screen.height,Screen.width));
+            storage.GameID = id;
+            storage.currentTimePlaying = currentTimePlaying;
             storage.StartTracking = true;
             scriptableObjects.gameReady.Raise();
             storage.ContainsItems = true;

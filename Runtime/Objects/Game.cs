@@ -8,32 +8,35 @@ namespace Objects
         [PrimaryKey]
         public int Id { get; set; }
         [NotNull]
-        public int TimesPlayed { get; }
-        [NotNull]
         public int UserId { get; set; }
-        [NotNull]
-        public int SessionId { get; set; }
         [NotNull,Column(Length = 100)]
         public string Name { get; }
         
         [Nullable]
         public List<ObjectInGame> Objects { get; }
         [Nullable]
-        public int AmountOfGamesPlayed { get; set; }
+        public int AmountOfTimesPlayed { get; set; }
         [Nullable]
         public float WindowHeight { get; set; }
         [Nullable]
         public float WindowWidth { get; set; }
         
-        public Game(int timesPlayed, int amountOfGamesPlayed,string name, int userId, int sessionId, float windowHeight, float windowWidth)
+        public Game(int amountOfTimesPlayed,string name, int userId, float windowHeight, float windowWidth)
         {
-            TimesPlayed = timesPlayed;
             UserId = userId;
-            AmountOfGamesPlayed = amountOfGamesPlayed;
+            AmountOfTimesPlayed = amountOfTimesPlayed;
             Name = name;
-            SessionId = sessionId;
-            var idString = $"{userId}{sessionId}{amountOfGamesPlayed}{timesPlayed}";
-            Id = int.Parse(idString);
+            Objects = new List<ObjectInGame>();
+            WindowHeight = windowHeight;
+            WindowWidth = windowWidth;
+        }
+
+        public Game(int id, int amountOfTimesPlayed, string name, int userId, float windowHeight, float windowWidth)
+        {
+            Id = id;
+            UserId = userId;
+            AmountOfTimesPlayed = amountOfTimesPlayed;
+            Name = name;
             Objects = new List<ObjectInGame>();
             WindowHeight = windowHeight;
             WindowWidth = windowWidth;

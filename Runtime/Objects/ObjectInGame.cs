@@ -5,7 +5,9 @@ namespace Objects
 {
     public class ObjectInGame
     {
-        [PrimaryKey,Column(Length = 100)]
+        [PrimaryKey]
+        public int Id { get; set; }
+        [Column(Length = 100)]
         public string Name { get; set; }
         [NotNull]
         public int GameId { get; set; }
@@ -30,8 +32,9 @@ namespace Objects
         [NotNull]
         public float EndPositionZ { get; set; }
 
-        public ObjectInGame(string name, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY, float spawnPositionZ)
+        public ObjectInGame(int id, string name, Aoi aoi, int gameId, long timeSpawn, float spawnPositionX, float spawnPositionY, float spawnPositionZ)
         {
+            Id = id;
             GameId = gameId;
             Name = name;
             Aoi = aoi;

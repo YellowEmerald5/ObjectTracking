@@ -7,16 +7,16 @@ namespace Objects
     {
         [PrimaryKey, Identity]
         public int Id { get; set; }
-        [NotNull, Column(Length = 100)]
-        public string AoiId { get; set; }
+        [NotNull]
+        public int AoiId { get; set; }
         [NotNull]
         public float PosX { get; set; }
         [NotNull]
         public float PosY { get; set; }
         
-        public AoiOrigin(string areaOfInterestId,Vector3 origin)
+        public AoiOrigin(int aoiId,Vector3 origin)
         {
-            AoiId = areaOfInterestId;
+            AoiId = aoiId;
             PosX = origin.x;
             PosY = origin.y;
         }

@@ -15,11 +15,12 @@ namespace SetUpScripts
         [SerializeField] public bool TrackAllObjects;
 
         /// <summary>
-        /// Sets up a ObjectTracker script for the object it is attached to
+        /// Sets up an ObjectTracker script for the object it is attached to
         /// </summary>
         private void Start()
         {
             gameEvents = FindObjectOfType<RequiredScriptableObjectsStorageScript>().requiredScriptables;
+            gameEvents.storage.availableObjectId = DatabaseManager.GetAvailableObjectID();
             if (TrackChildObjects || TrackAllObjects)
             {
                 if (TrackAllObjects && !TrackChildObjects)
@@ -60,17 +61,14 @@ namespace SetUpScripts
 
         private void SetUpObject(GameObject obj)
         {
-            print("Setting up object tracker");
             var tracker = obj.gameObject.AddComponent<ObjectTrackerScript>();
             tracker.storage = gameEvents.storage;
             if (gameEvents.storage.StartTracking)
             {
-                print("Starting tracking");
                 tracker.StartTracker();
             }
             else
             {
-                print("Preparations for tracking");
                 GameEventListenerSetup.SetUpEventListener(obj.gameObject,tracker.StartTracker,gameEvents.gameReady);
             }
             

@@ -26,7 +26,7 @@ namespace Objects
 
         public Game GetGame(int timesPlayed, string gameName)
         {
-            return GamesList.FirstOrDefault(game => game.Name.Equals(gameName) && game.TimesPlayed == timesPlayed);
+            return GamesList.FirstOrDefault(game => game.Name.Equals(gameName) && game.AmountOfTimesPlayed == timesPlayed);
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Objects
         [PrimaryKey, Identity]
         public int Id { get; set; }
         [NotNull,Column(Length = 100)]
-        public string AoiId { get; set; }
+        public int AoiId { get; set; }
         [NotNull]
         public float Height { get; set; }
         [NotNull]
         public float Width { get; set; }
 
-        public AoiSize(string aoiId, float height, float width)
+        public AoiSize(int aoiId, float height, float width)
         {
             AoiId = aoiId;
             Height = height;

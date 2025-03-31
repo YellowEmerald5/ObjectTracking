@@ -10,11 +10,12 @@ namespace ScriptableObjectScripts
         public User User;
         public string nickname = "";
         public int sessionID;
-        public Dictionary<string, int> currentTimePlaying = new ();
+        public int currentTimePlaying = 0;
         public bool ContainsItems = false;
         public int GameID = 0;
         public int CurrentObject = 0;
         public bool StartTracking;
+        public int availableObjectId = 0;
 
         public void SetNickname(string n)
         {

@@ -31,7 +31,6 @@ namespace BehaviourScripts
             storage.ContainsItems = false;
             SetObjectEnd();
             DatabaseManager.SaveStorageSOToDatabase(storage);
-            storage.User.Sessions[^1].GamesList = new List<Game>();
         }
         
         /// <summary>
@@ -39,7 +38,7 @@ namespace BehaviourScripts
         /// </summary>
         private void SetObjectEnd()
         {
-            foreach (var obj in storage.User.Sessions[^1].GamesList[^1].Objects)
+            foreach (var obj in storage.User.Games[^1].Objects)
             {
                 obj.TimeDestroyed = obj.Points[^1].Time;
                 var point = obj.Points[^1];

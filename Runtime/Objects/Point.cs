@@ -6,8 +6,8 @@ namespace Objects
     {
         [PrimaryKey,Identity]
         public int Id { get; set; }
-        [NotNull,Column(Length = 100)]
-        public string ObjectName { get; set; }
+        [NotNull]
+        public int ObjectId { get; set; }
         [NotNull]
         public long Time { get; }
         [NotNull]
@@ -17,9 +17,9 @@ namespace Objects
         [NotNull]
         public float PosZ { get; }
 
-        public Point(string objectName, long time, float posX, float posY, float posZ)
+        public Point(int objectId, long time, float posX, float posY, float posZ)
         {
-            ObjectName = objectName;
+            ObjectId = objectId;
             Time = time;
             PosX = posX;
             PosY = posY;

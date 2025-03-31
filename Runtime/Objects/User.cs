@@ -10,23 +10,23 @@ namespace Objects
         [PrimaryKey,Identity]
         public int Id { get; set; }
         [Nullable]
-        public List<Session> Sessions { get; set; }
+        public List<Game> Games { get; set; }
 
         public User()
         {
-            Sessions = new List<Session>();
+            Games = new List<Game>();
         }
         public User(string nickname)
         {
             Nickname = nickname;
-            Sessions = new List<Session>();
+            Games = new List<Game>();
         }
 
-        public User(int id, string nickname, List<Session> sessions)
+        public User(int id, string nickname, List<Game> games)
         {
             Id = id;
             Nickname = nickname;
-            Sessions = sessions;
+            Games = games;
         }
 
     }

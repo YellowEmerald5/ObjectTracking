@@ -34,7 +34,6 @@ namespace BehaviourScripts
             }
             storage.User = null;
             storage.GameID = 0;
-            storage.sessionID = 0;
             storage.nickname = "";
             storage.ContainsItems = false;
             storage.StartTracking = false;

@@ -24,7 +24,7 @@ namespace SetUpScripts
             storageReset = obj.AddComponent<StorageReset>();
             storageReset.storage = requiredScriptableObjects.storage;
             
-            GameEventListenerSetup.SetUpEventListener(obj,sessionSetup.GetSessionCount,requiredScriptableObjects.nicknameAdded);
+            GameEventListenerSetup.SetUpEventListener(obj,sessionSetup.GetGameCount,requiredScriptableObjects.nicknameAdded);
         }
     }
 }
