@@ -37,6 +37,8 @@ namespace BehaviourScripts
             storage.nickname = "";
             storage.ContainsItems = false;
             storage.StartTracking = false;
+            storage.availableGameId = 0;
+            storage.firstGame = true;
         }
     }
 }

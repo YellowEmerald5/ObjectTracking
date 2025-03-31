@@ -16,6 +16,8 @@ namespace ScriptableObjectScripts
         public int CurrentObject = 0;
         public bool StartTracking;
         public int availableObjectId = 0;
+        public int availableGameId = 0;
+        public bool firstGame = true;
 
         public void SetNickname(string n)
         {

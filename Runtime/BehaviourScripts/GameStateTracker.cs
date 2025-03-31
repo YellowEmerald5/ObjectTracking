@@ -22,19 +22,17 @@ namespace BehaviourScripts
         void Start()
         {
             storage = scriptableObjects.storage;
-            var key = SceneManager.GetActiveScene().name;
-            if (storage.currentTimePlaying == -1)
-            {
-                
-            }
             
             if(storage.User == null) return;
             var userId = storage.User.Id;
             var gameName = SceneManager.GetActiveScene().name;
+            
             var id = DatabaseManager.GetAvailableGameID();
-            var currentTimePlaying = DatabaseManager.AmountOfTimesPlayingTheSameGame(userId,gameName);
-            storage.User.Games.Add(new Game(id,currentTimePlaying+1,SceneManager.GetActiveScene().name, userId,Screen.height,Screen.width));
             storage.GameID = id;
+            storage.availableGameId = id;
+            var currentTimePlaying = DatabaseManager.AmountOfTimesPlayingTheSameGame(userId,gameName);
+            storage.User.Games.Add(new Game(storage.availableGameId,currentTimePlaying+1,SceneManager.GetActiveScene().name, userId,Screen.height,Screen.width));
+            storage.availableGameId++;
             storage.currentTimePlaying = currentTimePlaying;
             storage.StartTracking = true;
             scriptableObjects.gameReady.Raise();

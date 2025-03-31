@@ -35,27 +35,21 @@ namespace BehaviourScripts
                 connection.Insert(storage.User);
             }
 
-            foreach (var game in storage.User.Games)
+            connection.Insert(storage.User.Games[^1]);
+            foreach (var obj in storage.User.Games[^1].Objects)
             {
-                connection.Insert(game);
-                foreach (var obj in game.Objects)
-                {
-                    connection.Insert(obj);
-                    connection.Insert(obj.Aoi);
-                    foreach (var point in obj.Points)
-                    {
-                        connection.Insert(point);
-                    }
+                connection.Insert(obj);
+                connection.Insert(obj.Aoi);
+                foreach (var point in obj.Points)
+                { connection.Insert(point);
+                }
 
-                    foreach (var origin in obj.Aoi.Origins)
-                    {
-                        connection.Insert(origin);
-                    }
+                foreach (var origin in obj.Aoi.Origins) {
+                    connection.Insert(origin);
+                }
 
-                    foreach (var size in obj.Aoi.Sizes)
-                    {
-                        connection.Insert(size);
-                    }
+                foreach (var size in obj.Aoi.Sizes) { 
+                    connection.Insert(size);
                 }
             }
 
