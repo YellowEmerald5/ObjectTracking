@@ -31,7 +31,7 @@ namespace BehaviourScripts
             storage.GameID = id;
             storage.availableGameId = id;
             var currentTimePlaying = DatabaseManager.AmountOfTimesPlayingTheSameGame(userId,gameName);
-            storage.User.Games.Add(new Game(storage.availableGameId,currentTimePlaying+1,SceneManager.GetActiveScene().name, userId,Screen.height,Screen.width));
+            storage.User.Games.Add(new Game(storage.availableGameId,currentTimePlaying+1,SceneManager.GetActiveScene().name, userId,DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),Screen.height,Screen.width));
             storage.availableGameId++;
             storage.currentTimePlaying = currentTimePlaying;
             storage.StartTracking = true;
@@ -45,6 +45,7 @@ namespace BehaviourScripts
         /// </summary>
         private void OnDisable()
         {
+            storage.User.Games[^1].SetEndTime(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
             storage.CurrentObject = 0;
             storage.StartTracking = false;
         }
